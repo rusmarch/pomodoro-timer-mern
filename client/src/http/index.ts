@@ -1,5 +1,4 @@
 import axios from 'axios';
-//import { IUser } from '../types/userTypes';
 import { AuthResponse } from '../types/AuthResponse';
 
 export const API_URL = `http://localhost:5000/api`;
