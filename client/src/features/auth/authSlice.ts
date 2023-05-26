@@ -1,18 +1,15 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store/store";
 import { IUser } from '../../types/userTypes';
+import { userCredentials } from "../../types/userData";
 import { authService } from "./authService";
-import axios from "axios";
-import { AuthResponse } from "../../types/AuthResponse";
-import { AppThunk } from "../../store/store";
-import { API_URL } from "../../http";
 
 export interface authState {
    user: IUser | null;
    isAuth: boolean;
    isLoading: boolean;
    isError: boolean;
-   isSuccess: boolean;
+   message: string;
 }
 
 const initialState: authState = {
@@ -20,96 +17,137 @@ const initialState: authState = {
    isAuth: false,
    isLoading: false,
    isError: false,
-   isSuccess: false,
+   message: ''
 }
 
-
-export const authSlice = createSlice({
-   name: 'auth',
-   initialState,
-   reducers: {
-      isAuth: (state, action: PayloadAction<boolean>) => {
-         state.isAuth = action.payload;
-      },
-      setUser: (state, action: PayloadAction<IUser | null>) => {
-         state.user = action.payload;
-      },
-      setIsLoading: (state, action: PayloadAction<boolean>) => {
-         state.isLoading = action.payload;
-      }
-
-   },
-
-})
-
-export const { isAuth, setIsLoading, setUser } = authSlice.actions;
-
-export const selectIsAuth = (state: RootState) => state.auth.isAuth;
-export const selectIsLoading = (state: RootState) => state.auth.isLoading;
-export const selectUser = (state: RootState) => state.auth.user;
-
-export default authSlice.reducer;
-
-
-export const registration = (email: string, password: string): AppThunk =>
-   async (dispatch) => {
-
+export const register = createAsyncThunk(
+   'auth/register',
+   async (userData: userCredentials, thunkAPI) => {
       try {
+         const { email, password } = userData;
          const response = await authService.registration(email, password);
          console.log(response);
          localStorage.setItem('token', response.data.accessToken);
-         dispatch(isAuth(true))
-         dispatch(setUser(response.data.user));
-
+         return response.data.user;
       } catch (e: any) {
-         console.log(e.response?.data?.message);
+         const message = (e.response
+            && e.response.data
+            && e.response.data.message)
+            || e.message || e.toString()
+
+         return thunkAPI.rejectWithValue(message);
       }
    }
+)
 
-export const login = (email: string, password: string): AppThunk =>
-   async (dispatch) => {
-
+export const login = createAsyncThunk(
+   'auth/login',
+   async (userData: userCredentials, thunkAPI) => {
       try {
+         const { email, password } = userData;
          const response = await authService.login(email, password);
          console.log(response);
          localStorage.setItem('token', response.data.accessToken);
-         dispatch(isAuth(true));
-         dispatch(setUser(response.data.user));
-
+         return response.data.user;
       } catch (e: any) {
-         console.log(e.response?.data?.message);
+         const message = (e.response
+            && e.response.data
+            && e.response.data.message)
+            || e.message || e.toString()
+
+         return thunkAPI.rejectWithValue(message);
       }
    }
+)
 
-export const logout = (): AppThunk =>
-   async (dispatch) => {
-
-      try {
-         const response = await authService.logout();
-         localStorage.removeItem('token')
-         dispatch(isAuth(false));
-         dispatch(setUser(null));
-
-      } catch (e: any) {
-         console.log(e.response?.data?.message);
-      }
+export const logout = createAsyncThunk(
+   'auth/logout',
+   async () => {
+      await authService.logout();
+      localStorage.removeItem('token');
    }
+)
 
-export const checkAuth = (): AppThunk =>
-   async (dispatch) => {
-      setIsLoading(true);
-
+export const checkAuth = createAsyncThunk(
+   'auth/checkAuth',
+   async (_, thunkAPI) => {
       try {
-         const response = await axios.get<AuthResponse>(`${API_URL}/refresh`,
-            { withCredentials: true })
-         console.log(response);
+         const response = await authService.checkAuth2();
          localStorage.setItem('token', response.data.accessToken);
-         dispatch(isAuth(true));
-         dispatch(setUser(response.data.user));
-
+         return response.data.user;
       } catch (e: any) {
-         console.log(e.response?.data?.message);
-      } finally {
-         dispatch(setIsLoading(false));
+         const message = (e.response
+            && e.response.data
+            && e.response.data.message)
+            || e.message || e.toString()
+
+         return thunkAPI.rejectWithValue(message);
       }
    }
+)
+
+export const authSlice = createSlice({
+   name: 'auth2',
+   initialState,
+   reducers: {},
+   extraReducers: (builder) => {
+      builder
+         .addCase(register.pending, (state) => {
+            state.isLoading = true;
+         })
+         .addCase(register.fulfilled, (state, action: PayloadAction<IUser | null>) => {
+            state.isLoading = false;
+            state.isAuth = true;
+            state.user = action.payload;
+         })
+         .addCase(register.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload as string;
+            state.user = null;
+         })
+         .addCase(login.pending, (state) => {
+            state.isLoading = true;
+         })
+         .addCase(login.fulfilled, (state, action: PayloadAction<IUser | null>) => {
+            console.log(action.payload);
+            state.isLoading = false;
+            state.isAuth = true;
+            state.user = action.payload;
+         })
+         .addCase(login.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload as string;
+            state.user = null;
+         })
+         .addCase(logout.fulfilled, (state) => {
+            state.isAuth = false;
+            state.user = null;
+         })
+         .addCase(checkAuth.pending, (state) => {
+            state.isLoading = true;
+         })
+         .addCase(checkAuth.fulfilled, (state, action: PayloadAction<IUser | null>) => {
+            state.isLoading = false;
+            state.isAuth = true;
+            state.user = action.payload;
+         })
+         .addCase(checkAuth.rejected, (state, action) => {
+            // console.log('Error in checkAuth.rejected:', action.error); // Вывод ошибки
+            // console.log('Payload:', action.payload); // Вывод payload
+            // console.log('Error message:', action.error.message); // Вывод сообщения об ошибке
+
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload as string;
+            // state.user = null;
+         })
+   }
+})
+
+export const selectIsAuth = (state: RootState) => state.auth2.isAuth;
+export const selectIsLoading = (state: RootState) => state.auth2.isLoading;
+export const selectUser = (state: RootState) => state.auth2.user;
+
+export default authSlice.reducer;

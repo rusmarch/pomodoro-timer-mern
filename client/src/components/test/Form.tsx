@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { registration, login, selectIsAuth, selectUser } from '../../features/auth/authSlice';
+import { register, login, logout, selectIsAuth, selectUser } from '../../features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 
 export const Form = () => {
@@ -29,13 +29,13 @@ export const Form = () => {
             onChange={(e) => setPassword(e.target.value)}
          />
          <button
-            onClick={() => dispatch(registration(email, password))}
+            onClick={() => dispatch(register({email, password}))}
          >Register</button>
          <button
-            onClick={() => dispatch(login(email, password))}
+            onClick={() => dispatch(login({email, password}))}
          >Login</button>
          <button
-            onClick={() => dispatch(login(email, password))}
+            onClick={() => dispatch(logout())}
          >Logout</button>
       </div>
    )

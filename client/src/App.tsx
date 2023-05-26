@@ -1,22 +1,31 @@
 import { useEffect } from 'react';
 import './App.css';
-import { Form } from './components/test/Form';
 import { useAppDispatch, useAppSelector } from './hooks/redux-hooks';
 import {
   selectAllTasks,
   selectIsSuccess,
-  selectIsError,
   getAllTask,
-  reset
+  reset,
 } from './features/tasks/taskSlice';
-import { Task } from './components/Task';
+import { selectIsAuth } from './features/auth/authSlice';
+import { checkAuth } from './features/auth/authSlice';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Form } from './components/test/Form';
+import { NewTask } from './components/test/NewTask';
 
 function App() {
 
   const tasks = useAppSelector(selectAllTasks);
   const isSuccess = useAppSelector(selectIsSuccess);
-  const isError = useAppSelector(selectIsError);
+  const isAuth = useAppSelector(selectIsAuth);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      dispatch(checkAuth());
+    }
+  }, [dispatch])
 
   useEffect(() => {
     return () => {
@@ -28,21 +37,19 @@ function App() {
 
   useEffect(() => {
     dispatch(getAllTask());
-  }, [dispatch])
-
+  }, [dispatch, isSuccess])
 
   return (
     <div className="App">
       <h1>Tasks</h1>
       <Form />
-
-      <form >
-        
-      </form>
-
-      {tasks.map(t => 
+      <NewTask/>
+       {isAuth && 
+        tasks.map(t =>
         <div key={t._id}>{t.title}</div>
-        )}
+      )
+      }
+      <ToastContainer />
     </div>
   );
 }
