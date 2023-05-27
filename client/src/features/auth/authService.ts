@@ -24,11 +24,6 @@ const logout = (): Promise<void> => {
 
 const checkAuth =
    async (): Promise<AxiosResponse<AuthResponse>> => {
-      return $api.get<AuthResponse>('/refresh');
-   }
-
-const checkAuth2 =
-   async (): Promise<AxiosResponse<AuthResponse>> => {
      return await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
    }
 
@@ -37,6 +32,5 @@ export const authService = {
    registration,
    login,
    logout,
-   checkAuth,
-   checkAuth2
+   checkAuth
 }

@@ -72,7 +72,7 @@ export const checkAuth = createAsyncThunk(
    'auth/checkAuth',
    async (_, thunkAPI) => {
       try {
-         const response = await authService.checkAuth2();
+         const response = await authService.checkAuth();
          localStorage.setItem('token', response.data.accessToken);
          return response.data.user;
       } catch (e: any) {
@@ -89,7 +89,14 @@ export const checkAuth = createAsyncThunk(
 export const authSlice = createSlice({
    name: 'auth2',
    initialState,
-   reducers: {},
+   reducers: {
+      reset: (state) => {
+         state.isLoading = false;
+         state.isError = false;
+         state.isAuth = false;
+         state.message = '';
+      }
+   },
    extraReducers: (builder) => {
       builder
          .addCase(register.pending, (state) => {
@@ -146,8 +153,12 @@ export const authSlice = createSlice({
    }
 })
 
+export const { reset } = authSlice.actions;
+
+export const selectUser = (state: RootState) => state.auth2.user;
 export const selectIsAuth = (state: RootState) => state.auth2.isAuth;
 export const selectIsLoading = (state: RootState) => state.auth2.isLoading;
-export const selectUser = (state: RootState) => state.auth2.user;
+export const selectIsError = (state: RootState) => state.auth2.isError;
+export const selectMessage = (state: RootState) => state.auth2.message;
 
 export default authSlice.reducer;

@@ -1,0 +1,525 @@
+warning: LF will be replaced by CRLF in client/package-lock.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in client/package.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in client/src/App.css.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in client/src/App.tsx.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in package-lock.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in package.json.
+The file will have its original line endings in your working directory
+[1mdiff --git a/client/package-lock.json b/client/package-lock.json[m
+[1mindex ff45d3d..791cb31 100644[m
+[1m--- a/client/package-lock.json[m
+[1m+++ b/client/package-lock.json[m
+[36m@@ -22,6 +22,7 @@[m
+         "axios": "^1.4.0",[m
+         "react": "^18.2.0",[m
+         "react-dom": "^18.2.0",[m
+[32m+[m[32m        "react-icons": "^4.8.0",[m
+         "react-redux": "^8.0.5",[m
+         "react-router-dom": "^6.11.1",[m
+         "react-scripts": "5.0.1",[m
+[36m@@ -14256,6 +14257,14 @@[m
+       "resolved": "https://registry.npmjs.org/react-error-overlay/-/react-error-overlay-6.0.11.tgz",[m
+       "integrity": "sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg=="[m
+     },[m
+[32m+[m[32m    "node_modules/react-icons": {[m
+[32m+[m[32m      "version": "4.8.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/react-icons/-/react-icons-4.8.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-N6+kOLcihDiAnj5Czu637waJqSnwlMNROzVZMhfX68V/9bu9qHaMIJC4UdozWoOk57gahFCNHwVvWzm0MTzRjg==",[m
+[32m+[m[32m      "peerDependencies": {[m
+[32m+[m[32m        "react": "*"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/react-is": {[m
+       "version": "17.0.2",[m
+       "resolved": "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz",[m
+[1mdiff --git a/client/package.json b/client/package.json[m
+[1mindex eb96f90..745c046 100644[m
+[1m--- a/client/package.json[m
+[1m+++ b/client/package.json[m
+[36m@@ -17,6 +17,7 @@[m
+     "axios": "^1.4.0",[m
+     "react": "^18.2.0",[m
+     "react-dom": "^18.2.0",[m
+[32m+[m[32m    "react-icons": "^4.8.0",[m
+     "react-redux": "^8.0.5",[m
+     "react-router-dom": "^6.11.1",[m
+     "react-scripts": "5.0.1",[m
+[1mdiff --git a/client/src/App.css b/client/src/App.css[m
+[1mindex cca57b3..a89631f 100644[m
+[1m--- a/client/src/App.css[m
+[1m+++ b/client/src/App.css[m
+[36m@@ -1,5 +1,406 @@[m
+[32m+[m[32m@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');[m
+[32m+[m
+ * {[m
+   margin: 0;[m
+   padding: 0;[m
+   box-sizing: border-box;[m
+ }[m
+[32m+[m
+[32m+[m[32mbody {[m
+[32m+[m[32m  font-family: 'Poppins', sans-serif;[m
+[32m+[m[32m  height: 100vh;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32ma {[m
+[32m+[m[32m  text-decoration: none;[m
+[32m+[m[32m  color: #000;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mp {[m
+[32m+[m[32m  line-height: 1.7;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mul {[m
+[32m+[m[32m  list-style: none;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mli {[m
+[32m+[m[32m  line-height: 2.2;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mh1,[m
+[32m+[m[32mh2,[m
+[32m+[m[32mh3 {[m
+[32m+[m[32m  font-weight: 600;[m
+[32m+[m[32m  margin-bottom: 10px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.container {[m
+[32m+[m[32m  width: 100%;[m
+[32m+[m[32m  max-width: 960px;[m
+[32m+[m[32m  margin: 0 auto;[m
+[32m+[m[32m  padding: 0 20px;[m
+[32m+[m[32m  text-align: center;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.header {[m
+[32m+[m[32m  display: flex;[m
+[32m+[m[32m  justify-content: space-between;[m
+[32m+[m[32m  align-items: center;[m
+[32m+[m[32m  padding: 20px 0;[m
+[32m+[m[32m  border-bottom: 1px solid #e6e6e6;[m
+[32m+[m[32m  margin-bottom: 60px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.header ul {[m
+[32m+[m[32m  display: flex;[m
+[32m+[m[32m  align-items: center;[m
+[32m+[m[32m  justify-content: space-between;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.header ul li {[m
+[32m+[m[32m  margin-left: 20px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.header ul li a {[m
+[32m+[m[32m  display: flex;[m
+[32m+[m[32m  align-items: center;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.header ul li a:hover {[m
+[32m+[m[32m  color: #777;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.header ul li a svg {[m
+[32m+[m[32m  margin-right: 5px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.heading {[m
+[32m+[m[32m  font-size: 2rem;[m
+[32m+[m[32m  font-weight: 700;[m
+[32m+[m[32m  margin-bottom: 50px;[m
+[32m+[m[32m  padding: 0 20px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.heading p {[m
+[32m+[m[32m  color: #828282;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.boxes {[m
+[32m+[m[32m  display: grid;[m
+[32m+[m[32m  grid-template-columns: repeat(3, 1fr);[m
+[32m+[m[32m  gap: 20px;[m
+[32m+[m[32m  justify-content: space-between;[m
+[32m+[m[32m  align-items: center;[m
+[32m+[m[32m  text-align: center;[m
+[32m+[m[32m  margin-bottom: 30px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.boxes div {[m
+[32m+[m[32m  padding: 30px;[m
+[32m+[m[32m  border: 1px solid #e6e6e6;[m
+[32m+[m[32m  border-radius: 10px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.boxes h2 {[m
+[32m+[m[32m  margin-top: 20px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.boxes a:hover {[m
+[32m+[m[32m  color: #777;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.form {[m
+[32m+[m[32m  width: 70%;[m
+[32m+[m[32m  margin: 0 auto;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.form-group {[m
+[32m+[m[32m  margin-bottom: 10px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.form-group input,[m
+[32m+[m[32m.form-group textarea,[m
+[32m+[m[32m.form-group select {[m
+[32m+[m[32m  width: 100%;[m
+[32m+[m[32m  padding: 10px;[m
+[32m+[m[32m  border: 1px solid #e6e6e6;[m
+[32m+[m[32m  border-radius: 5px;[m
+[32m+[m[32m  margin-bottom: 10px;[m
+[32m+[m[32m  font-family: inherit;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.form-group label {[m
+[32m+[m[32m  text-align: left;[m
+[32m+[m[32m  display: block;[m
+[32m+[m[32m  margin: 0 0 5px 3px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.btn {[m
+[32m+[m[32m  padding: 10px 20px;[m
+[32m+[m[32m  border: 1px solid #000;[m
+[32m+[m[32m  border-radius: 5px;[m
+[32m+[m[32m  background: #000;[m
+[32m+[m[32m  color: #fff;[m
+[32m+[m[32m  font-size: 16px;[m
+[32m+[m[32m  font-weight: 700;[m
+[32m+[m[32m  cursor: pointer;[m
+[32m+[m[32m  text-align: center;[m
+[32m+[m[32m  appearance: button;[m
+[32m+[m[32m  display: flex;[m
+[32m+[m[32m  align-items: center;[m
+[32m+[m[32m  justify-content: center;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.btn svg {[m
+[32m+[m[32m  margin-right: 8px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.btn-reverse {[m
+[32m+[m[32m  background: #fff;[m
+[32m+[m[32m  color: #000;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.btn-block {[m
+[32m+[m[32m  width: 100%;[m
+[32m+[m[32m  margin-bottom: 20px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.btn-sm {[m
+[32m+[m[32m  padding: 5px 15px;[m
+[32m+[m[32m  font-size: 13px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.btn-danger {[m
+[32m+[m[32m  background: darkred;[m
+[32m+[m[32m  border: none;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.btn-back {[m
+[32m+[m[32m  width: 150px;[m
+[32m+[m[32m  margin-bottom: 20px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.btn:hover {[m
+[32m+[m[32m  transform: scale(0.98);[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.ticket-created {[m
+[32m+[m[32m  border: 1px solid #e6e6e6;[m
+[32m+[m[32m  border-radius: 5px;[m
+[32m+[m[32m  padding: 50px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.ticket-number {[m
+[32m+[m[32m  margin-bottom: 30px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.ticket-number h2 {[m
+[32m+[m[32m  font-size: 2.3rem;[m
+[32m+[m[32m  margin-bottom: 10px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.ticket-number p {[m
+[32m+[m[32m  font-size: 1.3rem;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.ticket-info {[m
+[32m+[m[32m  font-size: 1.3rem;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.ticket,[m
+[32m+[m[32m.ticket-headings {[m
+[32m+[m[32m  display: grid;[m
+[32m+[m[32m  grid-template-columns: repeat(4, 1fr);[m
+[32m+[m[32m  gap: 20px;[m
+[32m+[m[32m  justify-content: space-between;[m
+[32m+[m[32m  align-items: center;[m
+[32m+[m[32m  margin-bottom: 20px;[m
+[32m+[m[32m  background: #f4f4f4;[m
+[32m+[m[32m  padding: 10px 15px;[m
+[32m+[m[32m  border-radius: 5px;[m
+[32m+[m[32m  text-align: center;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.ticket-headings {[m
+[32m+[m[32m  font-weight: 700;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.status {[m
+[32m+[m[32m  background-color: #333;[m
+[32m+[m[32m  color: #fff;[m
+[32m+[m[32m  width: 100px;[m
+[32m+[m[32m  padding: 0 20px;[m
+[32m+[m[32m  justify-self: center;[m
+[32m+[m[32m  border-radius: 10px;[m
+[32m+[m[32m  font-size: 16px;[m
+[32m+[m[32m  text-align: center;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.status-new {[m
+[32m+[m[32m  background-color: green;[m
+[32m+[m[32m  color: #fff;[m
+[32m+[m[32m  border-radius: 10px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.status-open {[m
+[32m+[m[32m  background-color: steelblue;[m
+[32m+[m[32m  color: #fff;[m
+[32m+[m[32m  border-radius: 10px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.status-closed {[m
+[32m+[m[32m  background-color: darkred;[m
+[32m+[m[32m  color: #fff;[m
+[32m+[m[32m  border-radius: 10px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.ticket-page {[m
+[32m+[m[32m  position: relative;[m
+[32m+[m[32m  text-align: left;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.ticket-page h2 {[m
+[32m+[m[32m  display: flex;[m
+[32m+[m[32m  align-items: center;[m
+[32m+[m[32m  justify-content: space-between;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.ticket-page .btn {[m
+[32m+[m[32m  margin-bottom: 30px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.ticket-page .btn-block {[m
+[32m+[m[32m  width: 100%;[m
+[32m+[m[32m  margin-top: 30px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.ticket-desc {[m
+[32m+[m[32m  margin: 20px 0;[m
+[32m+[m[32m  font-size: 17px;[m
+[32m+[m[32m  background-color: #f4f4f4;[m
+[32m+[m[32m  border: 1px #ccc solid;[m
+[32m+[m[32m  padding: 10px 15px;[m
+[32m+[m[32m  border-radius: 5px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.note {[m
+[32m+[m[32m  border: 1px solid #e6e6e6;[m
+[32m+[m[32m  border-radius: 5px;[m
+[32m+[m[32m  text-align: left;[m
+[32m+[m[32m  padding: 20px;[m
+[32m+[m[32m  margin-bottom: 20px;[m
+[32m+[m[32m  position: relative;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.note-head {[m
+[32m+[m[32m  background: #f4f4f4;[m
+[32m+[m[32m  padding: 5px 20px;[m
+[32m+[m[32m  display: flex;[m
+[32m+[m[32m  justify-content: space-between;[m
+[32m+[m[32m  align-items: center;[m
+[32m+[m[32m  margin-bottom: 20px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.note-date {[m
+[32m+[m[32m  position: absolute;[m
+[32m+[m[32m  top: 15px;[m
+[32m+[m[32m  right: 10px;[m
+[32m+[m[32m  font-size: 14px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.delete-note {[m
+[32m+[m[32m  color: red;[m
+[32m+[m[32m  cursor: pointer;[m
+[32m+[m[32m  position: absolute;[m
+[32m+[m[32m  bottom: 10px;[m
+[32m+[m[32m  right: 20px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.btn-close {[m
+[32m+[m[32m  background: none;[m
+[32m+[m[32m  border: none;[m
+[32m+[m[32m  color: #000;[m
+[32m+[m[32m  position: absolute;[m
+[32m+[m[32m  top: 5px;[m
+[32m+[m[32m  right: 5px;[m
+[32m+[m[32m  font-size: 16px;[m
+[32m+[m[32m  cursor: pointer;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.btn-close:hover {[m
+[32m+[m[32m  color: red;[m
+[32m+[m[32m  transform: scale(0.98);[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mp.status-in-progress {[m
+[32m+[m[32m  color: orangered;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mp.status-waiting {[m
+[32m+[m[32m  color: red;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mp.status-ready {[m
+[32m+[m[32m  color: steelblue;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mp.status-complete {[m
+[32m+[m[32m  color: green;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mfooter {[m
+[32m+[m[32m  position: sticky;[m
+[32m+[m[32m  top: 95vh;[m
+[32m+[m[32m  text-align: center;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.loadingSpinnerContainer {[m
+[32m+[m[32m  position: fixed;[m
+[32m+[m[32m  top: 0;[m
+[32m+[m[32m  right: 0;[m
+[32m+[m[32m  bottom: 0;[m
+[32m+[m[32m  left: 0;[m
+[32m+[m[32m  background-color: rgba(0, 0, 0, 0.5);[m
+[32m+[m[32m  z-index: 5000;[m
+[32m+[m[32m  display: flex;[m
+[32m+[m[32m  justify-content: center;[m
+[32m+[m[32m  align-items: center;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.loadingSpinner {[m
+[32m+[m[32m  width: 64px;[m
+[32m+[m[32m  height: 64px;[m
+[32m+[m[32m  border: 8px solid;[m
+[32m+[m[32m  border-color: #000 transparent #555 transparent;[m
+[32m+[m[32m  border-radius: 50%;[m
+[32m+[m[32m  animation: spin 1.2s linear infinite;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m@keyframes spin {[m
+[32m+[m[32m  0% {[m
+[32m+[m[32m    transform: rotate(0deg);[m
+[32m+[m[32m  }[m
+[32m+[m[32m  100% {[m
+[32m+[m[32m    transform: rotate(360deg);[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m@media (max-width: 600px) {[m
+[32m+[m[32m  .boxes {[m
+[32m+[m[32m    grid-template-columns: 1fr;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .form {[m
+[32m+[m[32m    width: 90%;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .ticket-created h2,[m
+[32m+[m[32m  .heading h1 {[m
+[32m+[m[32m    font-size: 2rem;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .heading p {[m
+[32m+[m[32m    font-size: 1.5rem;[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m
+[1mdiff --git a/client/src/App.tsx b/client/src/App.tsx[m
+[1mindex ba5ec6e..e66e102 100644[m
+[1m--- a/client/src/App.tsx[m
+[1m+++ b/client/src/App.tsx[m
+[36m@@ -1,57 +1,59 @@[m
+[31m-import { useEffect } from 'react';[m
+[32m+[m[32mimport { useEffect } from 'react'[m
+ import './App.css';[m
+[31m-import { useAppDispatch, useAppSelector } from './hooks/redux-hooks';[m
+[31m-import {[m
+[31m-  selectAllTasks,[m
+[31m-  selectIsSuccess,[m
+[31m-  getAllTask,[m
+[31m-  reset,[m
+[31m-} from './features/tasks/taskSlice';[m
+[31m-import { selectIsAuth } from './features/auth/authSlice';[m
+[31m-import { checkAuth } from './features/auth/authSlice';[m
+[31m-import { ToastContainer } from 'react-toastify';[m
+ import 'react-toastify/dist/ReactToastify.css';[m
+[31m-import { Form } from './components/test/Form';[m
+[31m-import { NewTask } from './components/test/NewTask';[m
+[32m+[m[32mimport { ToastContainer } from 'react-toastify';[m
+[32m+[m
+[32m+[m[32mimport { checkAuth } from './features/auth/authSlice';[m
+[32m+[m[32mimport { useAppSelector, useAppDispatch } from './hooks/redux-hooks';[m
+[32m+[m[32mimport { selectIsAuth } from './features/auth/authSlice';[m
+[32m+[m
+[32m+[m[32mimport { BrowserRouter, Routes, Route } from 'react-router-dom';[m
+[32m+[m[32mimport { Home } from './pages/Home';[m
+[32m+[m[32mimport { Login } from './pages/Login';[m
+[32m+[m[32mimport { Register } from './pages/Register';[m
+[32m+[m[32mimport { Header } from './components/Header';[m
+[32m+[m[32mimport { PrivateRoute } from './components/PrivateRoute';[m
+[32m+[m
+[32m+[m[32m// import { NewTicket } from './pages/NewTicket';[m
+[32m+[m[32m// import { Tickets } from './pages/Tickets';[m
+[32m+[m[32m// import { Ticket } from './pages/Ticket';[m
+ [m
+ function App() {[m
+ [m
+[31m-  const tasks = useAppSelector(selectAllTasks);[m
+[31m-  const isSuccess = useAppSelector(selectIsSuccess);[m
+   const isAuth = useAppSelector(selectIsAuth);[m
+   const dispatch = useAppDispatch();[m
+ [m
+[31m-  useEffect(() => {[m
+[31m-    if (localStorage.getItem('token')) {[m
+[31m-      dispatch(checkAuth());[m
+[31m-    }[m
+[31m-  }, [dispatch])[m
+[32m+[m[32m    useEffect(() => {[m
+[32m+[m[32m      if (isAuth) {[m
+ [m
+[31m-  useEffect(() => {[m
+[31m-    return () => {[m
+[31m-      if (isSuccess) {[m
+[31m-        dispatch(reset());[m
+       }[m
+[31m-    }[m
+[31m-  }, [isSuccess, dispatch])[m
+[31m-[m
+[31m-  useEffect(() => {[m
+[31m-    dispatch(getAllTask());

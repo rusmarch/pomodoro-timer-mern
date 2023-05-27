@@ -1,56 +1,56 @@
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 import './App.css';
-import { useAppDispatch, useAppSelector } from './hooks/redux-hooks';
-import {
-  selectAllTasks,
-  selectIsSuccess,
-  getAllTask,
-  reset,
-} from './features/tasks/taskSlice';
-import { selectIsAuth } from './features/auth/authSlice';
-import { checkAuth } from './features/auth/authSlice';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Form } from './components/test/Form';
-import { NewTask } from './components/test/NewTask';
+import { ToastContainer } from 'react-toastify';
+
+import { checkAuth } from './features/auth/authSlice';
+import { useAppDispatch } from './hooks/redux-hooks';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { Header } from './components/Header';
+import { PrivateRoute } from './components/PrivateRoute';
+
+// import { NewTicket } from './pages/NewTicket';
+// import { Tickets } from './pages/Tickets';
+// import { Ticket } from './pages/Ticket';
 
 function App() {
 
-  const tasks = useAppSelector(selectAllTasks);
-  const isSuccess = useAppSelector(selectIsSuccess);
-  const isAuth = useAppSelector(selectIsAuth);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      dispatch(checkAuth());
-    }
-  }, [dispatch])
-
-  useEffect(() => {
-    return () => {
-      if (isSuccess) {
-        dispatch(reset());
+    useEffect(() => {
+      if (localStorage.getItem('token')) {
+        dispatch(checkAuth());
       }
-    }
-  }, [isSuccess, dispatch])
-
-  useEffect(() => {
-    dispatch(getAllTask());
-  }, [dispatch, isSuccess])
+  })
 
   return (
-    <div className="App">
-      <h1>Tasks</h1>
-      <Form />
-      <NewTask/>
-       {isAuth && 
-        tasks.map(t =>
-        <div key={t._id}>{t.title}</div>
-      )
-      }
+    <>
+      <BrowserRouter>
+        <div className='container'>
+          <Header />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            {/* <Route path='/new-ticket' element={<PrivateRoute />}>
+              <Route path='/new-ticket' element={<NewTicket/>} />
+            </Route> */}
+            {/* <Route path='/tickets' element={<PrivateRoute />}>
+              <Route path='/tickets' element={<Tickets/>} />
+            </Route> */}
+            {/* <Route path='/ticket/:ticketId' element={<PrivateRoute />}>
+              <Route path='/ticket/:ticketId' element={<Ticket/>} />
+            </Route> */}
+
+          </Routes>
+        </div>
+      </BrowserRouter>
       <ToastContainer />
-    </div>
+    </>
   );
 }
 
