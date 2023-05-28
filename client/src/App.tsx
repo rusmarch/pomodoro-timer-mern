@@ -13,6 +13,8 @@ import { Register } from './pages/Register';
 import { Header } from './components/Header';
 import { PrivateRoute } from './components/PrivateRoute';
 
+import { Timer } from './components/Timer';
+import { Tasks } from './pages/Tasks'
 // import { NewTicket } from './pages/NewTicket';
 // import { Tickets } from './pages/Tickets';
 // import { Ticket } from './pages/Ticket';
@@ -32,6 +34,7 @@ function App() {
       <BrowserRouter>
         <div className='container'>
           <Header />
+          <Timer/>
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
@@ -39,9 +42,9 @@ function App() {
             {/* <Route path='/new-ticket' element={<PrivateRoute />}>
               <Route path='/new-ticket' element={<NewTicket/>} />
             </Route> */}
-            {/* <Route path='/tickets' element={<PrivateRoute />}>
-              <Route path='/tickets' element={<Tickets/>} />
-            </Route> */}
+            <Route path='/tasks' element={<PrivateRoute />}>
+              <Route path='/tasks' element={<Tasks/>} />
+            </Route>
             {/* <Route path='/ticket/:ticketId' element={<PrivateRoute />}>
               <Route path='/ticket/:ticketId' element={<Ticket/>} />
             </Route> */}

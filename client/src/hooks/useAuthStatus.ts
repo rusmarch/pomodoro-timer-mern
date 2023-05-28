@@ -4,8 +4,8 @@ import { selectUser } from '../features/auth/authSlice';
 
 export const useAuthStatus = () => {
    
-   const [loggedIn, setLoggedIn] = useState(false);
-   const [checkingStatus, setCheckingStatus] = useState(true);
+   const [loggedIn, setLoggedIn] = useState<boolean>(false);
+   const [checkingStatus, setCheckingStatus] = useState<boolean>(true);
 
    const user = useAppSelector(selectUser);
 

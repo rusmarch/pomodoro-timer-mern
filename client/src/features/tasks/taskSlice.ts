@@ -141,6 +141,7 @@ export const selectCurrentTask = (state: RootState) => state.tasks.currentTask;
 export const selectAllTasks = (state: RootState) => state.tasks.allTasks;
 export const selectOneTask = (state: RootState) => state.tasks.oneTask;
 export const selectIsSuccess = (state: RootState) => state.tasks.isError;
+export const selectIsLoading = (state: RootState) => state.tasks.isLoading;
 export const selectIsError = (state: RootState) => state.tasks.isError;
 export const selectMessage = (state: RootState) => state.tasks.message;
 

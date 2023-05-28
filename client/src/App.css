@@ -9,6 +9,7 @@
 body {
   font-family: 'Poppins', sans-serif;
   height: 100vh;
+  background: #f7f7f9;
 }
 
 a {
@@ -208,18 +209,75 @@ h3 {
   font-size: 1.3rem;
 }
 
-.ticket,
-.ticket-headings {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+.task {
+  display: flex;
   gap: 20px;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  background: #f4f4f4;
-  padding: 10px 15px;
-  border-radius: 5px;
-  text-align: center;
+  margin-bottom: 5px;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+}
+
+.task-icon {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  background-position: center;
+  background-size: cover;
+  /* or background-size: cover; */
+  background-repeat: no-repeat;
+}
+
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+}
+
+.task-tracking {
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+}
+
+.task-delete {
+  width: 20px;
+  height: 20px;
+  margin: 5px 15px;
+}
+
+.task-actions {
+  display: flex;
+  align-items: center;
+}
+
+
+.task-form {
+  height: 60px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.task-form-input {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  padding: 5px 20px;
+  border: none;
+  border-radius: 10px;
+}
+
+.task-form-input:focus {
+  outline: none;
+  border: 1px solid red
 }
 
 .ticket-headings {
@@ -381,6 +439,7 @@ footer {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
