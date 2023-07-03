@@ -1,17 +1,16 @@
-import { FC } from 'react';
+import { FC, ChangeEvent } from 'react';
 import startImg from '../assets/task-start.png';
 import runningImg from '../assets/task-running.png';
 
 interface StartButtonProps {
    isRunning: boolean;
-   onChange: (isRunning: boolean) => void;
+   onChange: (value: boolean) => void;
 }
 
-export const StartButton: FC<StartButtonProps> = ({ isRunning, onChange }) => {
+export const StartButton: FC<StartButtonProps> = ({ onChange, isRunning }) => {
 
-   const handleChange = () => {
-      const updatedValue = !isRunning;
-      onChange(updatedValue);
+   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+      onChange(e.target.checked);
    }
 
    return (

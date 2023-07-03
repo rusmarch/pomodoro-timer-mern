@@ -6,5 +6,6 @@ export interface ITimer {
    isPausing: boolean,
    mode: "pomodoro" | "break",
    workedTime: number,
+   isTrackingInPomodoro: boolean
 }
 

@@ -1,25 +1,17 @@
 export interface ITaskItem {
-   id?: number,
-   title: string, 
-   complete?: boolean,
-   totalTime: number
-}
-
-export interface task {
-   title: string, 
-   complete?: boolean,
-   totalTime: number
-   user: string,
    _id: string
+   user: string,
+   title: string, 
+   complete: boolean,
+   totalTime: number,
+   __v?: number
 }
 
-export interface ITasks {
-   tasks: ITaskItem[],
-   searchQuery: string,
-   completedTasks?: ITaskItem[], 
-   currentTask?: any,        
-   oneTask: task | {} | null,
-   allTasks: task[] | [],
+export interface ITaskState {
+   completedTasks: ITaskItem[] | [], 
+   currentTask: ITaskItem | {},        
+   oneTask: ITaskItem | {},
+   allTasks: ITaskItem[] | [],
    isLoading: boolean,
    isSuccess: boolean,
    isError: boolean,
@@ -28,4 +20,8 @@ export interface ITasks {
 
 export interface ITaskData {
    title: string
+}
+
+export interface DeleteResponse {
+   success: boolean;
 }

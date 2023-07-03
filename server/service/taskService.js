@@ -51,7 +51,7 @@ class TaskService {
          throw ApiError.UnauthorizedError();
       }
 
-      await taskModel.deleteOne();
+      await taskModel.findByIdAndDelete(taskId);
 
       return { success: true }
    }
@@ -82,9 +82,6 @@ class TaskService {
 
       return updatedTask;
    }
-
-
-
 
 }
 

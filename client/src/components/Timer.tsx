@@ -1,12 +1,11 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
-import { selectCurrentTask } from '../features/tasks/taskSlice';
+// import { selectCurrentTask, countTotalTime } from '../features/tasks/taskSlice';
 import {
    selectDisplayTime,
    selectIsWorking,
    selectIsPausing,
    selectMode,
-   selectWorkedTime,
    formatTime,
    decrement,
    start,
@@ -19,11 +18,11 @@ export const Timer = () => {
    const isWorking = useAppSelector(selectIsWorking);
    const displayTime = useAppSelector(selectDisplayTime);
    const isPausing = useAppSelector(selectIsPausing);
-   const currentTask = useAppSelector(selectCurrentTask);
+   // const currentTask = useAppSelector(selectCurrentTask);
    const mode = useAppSelector(selectMode);
    const dispatch = useAppDispatch();
 
-   React.useEffect(() => {
+   useEffect(() => {
       let timer = setInterval(decrementTime, 1000);
 
       function decrementTime() {
@@ -39,12 +38,13 @@ export const Timer = () => {
       return () => clearInterval(timer);
    }, [displayTime, isWorking, dispatch]);
 
+   // console.log(currentT)
 
    return (
       <div className={`timer ${mode === "pomodoro" ? "work-mode" : "brake-mode"}`}>
          <div className='timer-content'>
             <h3>Status Timer: {mode}</h3>
-            {currentTask.title && <h3>Current task: {currentTask.title}</h3>}
+            {/* {currentTask.title && <h3>Current task: {currentTask.title}</h3>} */}
             <h2>{formatTime(displayTime)}</h2>
             {!isPausing
                ? <button onClick={() => {

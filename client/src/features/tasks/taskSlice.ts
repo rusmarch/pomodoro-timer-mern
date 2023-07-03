@@ -1,20 +1,14 @@
+import { ITaskData } from './../../types/taskTypes';
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
-import { ITasks, ITaskItem, ITaskData, task } from '../../types/taskTypes';
+import { ITaskState, ITaskItem } from '../../types/taskTypes';
 import { taskService } from './taskService';
 
-const initialState: ITasks = {
-   tasks: [
-      { id: 1, title: 'sleep', complete: false, totalTime: 0 },
-      { id: 2, title: 'play Witcher', complete: false, totalTime: 0 },
-      { id: 3, title: 'eat', complete: false, totalTime: 0 },
-      { id: 4, title: 'have more relax', complete: false, totalTime: 0 },
-      { id: 5, title: 'eat again', complete: false, totalTime: 0 }
-   ],
-   searchQuery: '',
+
+const initialState: ITaskState = {
+   allTasks: [],
    completedTasks: [],
    currentTask: {},
-   allTasks: [],
    oneTask: {},
    isLoading: false,
    isSuccess: false,
@@ -24,9 +18,10 @@ const initialState: ITasks = {
 
 export const createNewTask = createAsyncThunk(
    'tasks/create',
-   async (taskData: ITaskData, thunkAPI) => { // taskData must be object { title }
+   async (taskData: ITaskData, thunkAPI) => {
       try {
-         return await taskService.createTask(taskData);
+         const response = await taskService.createTask(taskData);
+         return response.data;
       } catch (e: any) {
          const message = (e.response
             && e.response.data
@@ -42,7 +37,42 @@ export const getAllTask = createAsyncThunk(
    'tasks/getAll',
    async (_, thunkAPI) => {
       try {
-         return taskService.getAllTask();
+         const response = await taskService.getAllTask();
+         return response.data;
+      } catch (e: any) {
+         const message = (e.response
+            && e.response.data
+            && e.response.data.message)
+            || e.message || e.toString();
+
+         return thunkAPI.rejectWithValue(message);
+      }
+   }
+)
+
+export const removeTask = createAsyncThunk(
+   'tasks/remove',
+   async (taskId: string, thunkAPI) => {
+      try {
+         await taskService.removeTask(taskId);
+         return taskId;
+      } catch (e: any) {
+         const message = (e.responsg
+            && e.response.data
+            && e.response.data.message)
+            || e.message || e.toString();
+
+         return thunkAPI.rejectWithValue(message);
+      }
+   }
+)
+
+export const updateTask = createAsyncThunk(
+   'task/update',
+   async (updatedTaskData: ITaskItem, thunkAPI) => {
+      try {
+         const response = await taskService.updateTask(updatedTaskData);
+         return response.data;
       } catch (e: any) {
          const message = (e.response
             && e.response.data
@@ -66,77 +96,53 @@ export const taskSlice = createSlice({
          state.isError = false;
          state.message = '';
       },
-      create: (state, action: PayloadAction<ITaskItem>) => {
-         state.tasks.push(action.payload);
-      },
-      remove: (state, action: PayloadAction<number | undefined>) => {
-         state.tasks = state.tasks.filter(task => task.id !== action.payload)
-      },
-      complete: (state, action: PayloadAction<ITaskItem>) => {
-         state.completedTasks?.push(action.payload);
-         state.tasks = state.tasks
-            .map(task => task.id === action.payload.id
-               ? { ...task, complete: !task.complete }
-               : task
-            )
-            .filter(task => task.id !== action.payload.id);
-      },
-      search: (state, action: PayloadAction<string>) => {
-         state.searchQuery = action.payload
-      },
       setCurrentTask: (state, action: PayloadAction<ITaskItem>) => {
          state.currentTask = action.payload;
       },
-      countTotalTime: (state, action: PayloadAction<number>) => {
-         state.tasks = state.tasks.map(task =>
-            task.id === state.currentTask.id
-               ? { ...task, totalTime: task.totalTime + action.payload }
-               : task)
-      },
-      editTask: (state, action: PayloadAction<ITaskItem>) => {
-         state.tasks = state.tasks.map(task =>
-            task.id === action.payload.id
-               ? { ...task, title: action.payload.title }
-               : task
-         )
-      },
+      complete: (state, action: PayloadAction<string>) => {
+         const task = state.allTasks.find(t => t._id === action.payload);
+
+         if (task && task.complete) {
+            state.completedTasks = [...state.completedTasks, task];
+            state.allTasks = state.allTasks.filter(task =>
+               task._id !== action.payload
+            )
+         }
+      }
+      // search: (state, action: PayloadAction<string>) => {
+      //    state.searchQuery = action.payload
+      // },
+      // editTask: (state, action: PayloadAction<ITaskItem>) => {
+      //    state.tasks = state.tasks.map(task =>
+      //       task.id === action.payload.id
+      //          ? { ...task, title: action.payload.title }
+      //          : task
+      //    )
+      // },
    },
    extraReducers: (builder) => {
       builder
-         .addCase(createNewTask.pending, (state) => {
-            state.isLoading = true;
+         .addCase(createNewTask.fulfilled, (state, action: PayloadAction<ITaskItem>) => {
+            state.allTasks = [...state.allTasks, action.payload];
          })
-         .addCase(createNewTask.fulfilled, (state) => {
-            state.isLoading = false;
-            state.isSuccess = true;
-         })
-         .addCase(createNewTask.rejected, (state, action) => {
-            state.isLoading = false;
-            state.isError = true;
-            state.message = action.payload as string;
-            state.oneTask = null;
-         })
-         .addCase(getAllTask.pending, (state) => {
-            state.isLoading = true;
-         })
-         .addCase(getAllTask.fulfilled, (state, action: PayloadAction<any>) => {
-            state.isLoading = false;
-            state.isSuccess = true;
+         .addCase(getAllTask.fulfilled, (state, action: PayloadAction<ITaskItem[]>) => {
             state.allTasks = action.payload;
+            state.allTasks = action.payload.filter(task => task.complete === false);
+            state.completedTasks = action.payload.filter(task => task.complete === true);
          })
-         .addCase(getAllTask.rejected, (state, action) => {
-            state.isLoading = false;
-            state.isError = true;
-            state.message = action.payload as string;
-            state.oneTask = null;
+         .addCase(removeTask.fulfilled, (state, action: PayloadAction<string>) => {
+            state.allTasks = state.allTasks.filter(task => task._id !== action.payload);
          })
-
+         .addCase(updateTask.fulfilled, (state, action: PayloadAction<ITaskItem>) => {
+            state.allTasks = state.allTasks.map(task =>
+               task._id === action.payload._id
+                  ? action.payload : task
+            )
+         })
    }
 })
 
-export const selectTasks = (state: RootState) => state.tasks.tasks;
 export const selectCompletedTasks = (state: RootState) => state.tasks.completedTasks;
-export const selectSearchQuery = (state: RootState) => state.tasks.searchQuery;
 export const selectCurrentTask = (state: RootState) => state.tasks.currentTask;
 export const selectAllTasks = (state: RootState) => state.tasks.allTasks;
 export const selectOneTask = (state: RootState) => state.tasks.oneTask;
@@ -147,17 +153,8 @@ export const selectMessage = (state: RootState) => state.tasks.message;
 
 
 export const {
-   create,
-   remove,
-   complete,
-   search,
-   setCurrentTask,
-   countTotalTime,
-   editTask,
    reset,
+   setCurrentTask,
+   complete,
 } = taskSlice.actions;
 export default taskSlice.reducer;
-
-
-
-

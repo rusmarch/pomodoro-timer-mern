@@ -29,12 +29,13 @@ export const Tasks = () => {
 
    useEffect(() => {
       dispatch(getAllTask())
+      // .unwrap()
+      // .then(())
    }, [dispatch])
 
    if (isLoading) {
       return <Spinner />
    }
-
 
    return (
       <>
@@ -50,6 +51,8 @@ export const Tasks = () => {
                />
             )}
          </div>
+         <br />
+
       </>
    )
 }
