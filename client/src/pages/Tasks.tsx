@@ -44,6 +44,7 @@ export const Tasks = () => {
          <Timer />
          <h1>Tasks List</h1>
          <TaskForm />
+         <h5 style={{textAlign: 'right'}}>Show completed tasks</h5>
          <br />
          <div className="tickets">
             {tasks.map(task =>
