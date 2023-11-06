@@ -11,6 +11,7 @@ import { Spinner } from '../components/Spinner';
 import { BackButton } from '../components/BackButton';
 import { TaskItem } from '../components/TaskItem';
 import { TaskForm } from '../components/TaskForm';
+import { Timer } from '../components/Timer';
 
 export const Tasks = () => {
 
@@ -40,6 +41,7 @@ export const Tasks = () => {
    return (
       <>
          <BackButton /* url='/' */ />
+         <Timer />
          <h1>Tasks List</h1>
          <TaskForm />
          <br />
