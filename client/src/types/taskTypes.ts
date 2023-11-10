@@ -8,7 +8,6 @@ export interface ITaskItem {
 }
 
 export interface ITaskState {
-   completedTasks: ITaskItem[] | [], 
    currentTask: ITaskItem | {},        
    oneTask: ITaskItem | {},
    allTasks: ITaskItem[] | [],

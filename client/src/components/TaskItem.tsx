@@ -33,7 +33,7 @@ export const TaskItem: FC<Props> = ({ task }) => {
    const completeTask = async () => {
       const updatedTask = { ...task, complete: !task.complete };
       await dispatch(updateTask(updatedTask));
-      dispatch(complete(task._id));
+      dispatch(complete(updatedTask));
    }
 
    const trackTask = () => {

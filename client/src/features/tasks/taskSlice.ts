@@ -7,7 +7,6 @@ import { taskService } from './taskService';
 
 const initialState: ITaskState = {
    allTasks: [],
-   completedTasks: [],
    currentTask: {},
    oneTask: {},
    isLoading: false,
@@ -99,15 +98,11 @@ export const taskSlice = createSlice({
       setCurrentTask: (state, action: PayloadAction<ITaskItem>) => {
          state.currentTask = action.payload;
       },
-      complete: (state, action: PayloadAction<string>) => {
-         const task = state.allTasks.find(t => t._id === action.payload);
-
-         if (task && task.complete) {
-            state.completedTasks = [...state.completedTasks, task];
-            state.allTasks = state.allTasks.filter(task =>
-               task._id !== action.payload
-            )
-         }
+      complete: (state, action: PayloadAction<ITaskItem>) => {
+         state.allTasks = state.allTasks.map((task) =>
+            task._id === action.payload._id
+               ? { ...task, complete: action.payload.complete }
+               : task)
       }
       // search: (state, action: PayloadAction<string>) => {
       //    state.searchQuery = action.payload
@@ -127,8 +122,6 @@ export const taskSlice = createSlice({
          })
          .addCase(getAllTask.fulfilled, (state, action: PayloadAction<ITaskItem[]>) => {
             state.allTasks = action.payload;
-            state.allTasks = action.payload.filter(task => task.complete === false);
-            state.completedTasks = action.payload.filter(task => task.complete === true);
          })
          .addCase(removeTask.fulfilled, (state, action: PayloadAction<string>) => {
             state.allTasks = state.allTasks.filter(task => task._id !== action.payload);
@@ -142,7 +135,6 @@ export const taskSlice = createSlice({
    }
 })
 
-export const selectCompletedTasks = (state: RootState) => state.tasks.completedTasks;
 export const selectCurrentTask = (state: RootState) => state.tasks.currentTask;
 export const selectAllTasks = (state: RootState) => state.tasks.allTasks;
 export const selectOneTask = (state: RootState) => state.tasks.oneTask;
