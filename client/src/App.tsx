@@ -13,7 +13,6 @@ import { Register } from './pages/Register';
 import { Header } from './components/Header';
 import { PrivateRoute } from './components/PrivateRoute';
 
-import { Timer } from './components/Timer';
 import { Tasks } from './pages/Tasks'
 // import { NewTicket } from './pages/NewTicket';
 // import { Tickets } from './pages/Tickets';
@@ -34,7 +33,6 @@ function App() {
       <BrowserRouter>
         <div className='container'>
           <Header />
-          <Timer/>
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
