@@ -9,7 +9,7 @@ import {
 } from '../features/tasks/taskSlice';
 import { Spinner } from '../components/Spinner';
 import { BackButton } from '../components/BackButton';
-import { TaskItem } from '../components/TaskItem';
+import { Task } from '../components/TaskItem';
 import { TaskForm } from '../components/TaskForm';
 import { Timer } from '../components/Timer';
 
@@ -47,7 +47,7 @@ export const Tasks = () => {
    const renderTaskList = (
       <div className="tickets">
          {tasks.map(task => (
-            !task.complete && <TaskItem
+            !task.complete && <Task
                key={task._id}
                task={task}
             />
@@ -58,7 +58,7 @@ export const Tasks = () => {
    const renderCompletedTaskList = (
       <div className="tickets">
          {tasks.map(task => (
-            task.complete && <TaskItem
+            task.complete && <Task
                key={task._id}
                task={task}
             />

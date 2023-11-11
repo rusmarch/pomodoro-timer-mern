@@ -1,11 +1,20 @@
-import { ITaskData } from './../../types/taskTypes';
+import { TaskData } from './../../types/taskTypes';
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
-import { ITaskState, ITaskItem } from '../../types/taskTypes';
+import { TaskItem } from '../../types/taskTypes';
 import { taskService } from './taskService';
 
+export type TaskState = {
+   currentTask: TaskItem | {},        
+   oneTask: TaskItem | {},
+   allTasks: TaskItem[] | [],
+   isLoading: boolean,
+   isSuccess: boolean,
+   isError: boolean,
+   message: string
+}
 
-const initialState: ITaskState = {
+const initialState: TaskState = {
    allTasks: [],
    currentTask: {},
    oneTask: {},
@@ -17,7 +26,7 @@ const initialState: ITaskState = {
 
 export const createNewTask = createAsyncThunk(
    'tasks/create',
-   async (taskData: ITaskData, thunkAPI) => {
+   async (taskData: TaskData, thunkAPI) => {
       try {
          const response = await taskService.createTask(taskData);
          return response.data;
@@ -68,7 +77,7 @@ export const removeTask = createAsyncThunk(
 
 export const updateTask = createAsyncThunk(
    'task/update',
-   async (updatedTaskData: ITaskItem, thunkAPI) => {
+   async (updatedTaskData: TaskItem, thunkAPI) => {
       try {
          const response = await taskService.updateTask(updatedTaskData);
          return response.data;
@@ -95,10 +104,10 @@ export const taskSlice = createSlice({
          state.isError = false;
          state.message = '';
       },
-      setCurrentTask: (state, action: PayloadAction<ITaskItem>) => {
+      setCurrentTask: (state, action: PayloadAction<TaskItem>) => {
          state.currentTask = action.payload;
       },
-      complete: (state, action: PayloadAction<ITaskItem>) => {
+      complete: (state, action: PayloadAction<TaskItem>) => {
          state.allTasks = state.allTasks.map((task) =>
             task._id === action.payload._id
                ? { ...task, complete: action.payload.complete }
@@ -107,7 +116,7 @@ export const taskSlice = createSlice({
       // search: (state, action: PayloadAction<string>) => {
       //    state.searchQuery = action.payload
       // },
-      // editTask: (state, action: PayloadAction<ITaskItem>) => {
+      // editTask: (state, action: PayloadAction<TaskItem>) => {
       //    state.tasks = state.tasks.map(task =>
       //       task.id === action.payload.id
       //          ? { ...task, title: action.payload.title }
@@ -117,16 +126,16 @@ export const taskSlice = createSlice({
    },
    extraReducers: (builder) => {
       builder
-         .addCase(createNewTask.fulfilled, (state, action: PayloadAction<ITaskItem>) => {
+         .addCase(createNewTask.fulfilled, (state, action: PayloadAction<TaskItem>) => {
             state.allTasks = [...state.allTasks, action.payload];
          })
-         .addCase(getAllTask.fulfilled, (state, action: PayloadAction<ITaskItem[]>) => {
+         .addCase(getAllTask.fulfilled, (state, action: PayloadAction<TaskItem[]>) => {
             state.allTasks = action.payload;
          })
          .addCase(removeTask.fulfilled, (state, action: PayloadAction<string>) => {
             state.allTasks = state.allTasks.filter(task => task._id !== action.payload);
          })
-         .addCase(updateTask.fulfilled, (state, action: PayloadAction<ITaskItem>) => {
+         .addCase(updateTask.fulfilled, (state, action: PayloadAction<TaskItem>) => {
             state.allTasks = state.allTasks.map(task =>
                task._id === action.payload._id
                   ? action.payload : task

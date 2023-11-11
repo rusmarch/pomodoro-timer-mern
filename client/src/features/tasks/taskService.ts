@@ -1,15 +1,15 @@
 import { $api } from "../../http";
 import { AxiosResponse } from 'axios';
-import { ITaskItem, ITaskData, DeleteResponse } from '../../types/taskTypes'
+import { TaskItem, TaskData, DeleteResponse } from '../../types/taskTypes'
 
 const createTask = async (
-   taskData: ITaskData
-   ):Promise<AxiosResponse<ITaskItem>> => {
+   taskData: TaskData
+   ):Promise<AxiosResponse<TaskItem>> => {
    return $api.post('/tasks', taskData);
 }
 
-const getAllTask = async (): Promise<AxiosResponse<ITaskItem[]>> => {
-   return await $api.get<ITaskItem[]>('/tasks');
+const getAllTask = async (): Promise<AxiosResponse<TaskItem[]>> => {
+   return await $api.get<TaskItem[]>('/tasks');
 }
 
 const removeTask = async (
@@ -19,8 +19,8 @@ const removeTask = async (
 }
 
 const updateTask = async (
-   updatedTaskData: ITaskItem
-): Promise<AxiosResponse<ITaskItem>> => {
+   updatedTaskData: TaskItem
+): Promise<AxiosResponse<TaskItem>> => {
    return $api.put(`/tasks/${updatedTaskData._id}`, updatedTaskData);
 }
 

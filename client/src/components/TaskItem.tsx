@@ -1,6 +1,6 @@
 // import { Link } from "react-router-dom"
 import { FC, useState } from 'react';
-import { ITaskItem } from "../types/taskTypes";
+import { TaskItem } from "../types/taskTypes";
 import { Checkbox } from './Checkbox';
 import { StartButton } from './StartButton';
 import { RiDeleteBinLine } from 'react-icons/ri'
@@ -17,15 +17,15 @@ import {
    selectIsTrackingInPomodoro
 } from '../features/timer/timerSlice';
 
-interface Props {
-   task: ITaskItem,
+type Props = {
+   task: TaskItem,
 }
 
-export const TaskItem: FC<Props> = ({ task }) => {
+export const Task: FC<Props> = ({ task }) => {
 
    const dispatch = useAppDispatch();
    const isTrackingPomodoro = useAppSelector(selectIsTrackingInPomodoro);
-   const currentTask = useAppSelector(selectCurrentTask) as ITaskItem | {};
+   const currentTask = useAppSelector(selectCurrentTask) as TaskItem | {};
 
    const isRunning = currentTask && ('_id' in currentTask)
       && currentTask._id === task._id && isTrackingPomodoro;
