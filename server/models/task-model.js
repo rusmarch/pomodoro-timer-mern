@@ -17,7 +17,12 @@ const TaskSchema = new Schema({
    totalTime: {
       type: Number,
       default: 0
-   }
+   },
+tags: {
+      type: [String],  
+      default: [],     
+   },
 })
 
 module.exports = model('Task', TaskSchema);
+
