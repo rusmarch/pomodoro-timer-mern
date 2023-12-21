@@ -3,10 +3,13 @@ import { RootState, AppThunk } from '../../store/store';
 import { ITimer } from '../../types/timerTypes';
 import { selectCurrentTask, setCurrentTask, updateTask } from '../tasks/taskSlice';
 
+const pomTime = 1 * 60;
+const brTime = .5 * 60;
+
 const initialState: ITimer = {
-   displayTime: 10,
-   pomodoroTime: 10,
-   breakTime: 5,
+   displayTime: pomTime,
+   pomodoroTime: pomTime,
+   breakTime: brTime,
    isWorking: false,
    isPausing: false,
    mode: "pomodoro",
@@ -72,7 +75,7 @@ export default timerSlice.reducer;
 
 
 export const formatTime = (time: number) => {
-   let minutes = Math.floor(time / 600);
+   let minutes = Math.floor(time / 60);
    let seconds = time % 60;
 
    return (

@@ -1,10 +1,18 @@
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
+
+import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
+import Stack from '@mui/material/Stack';
+
 // import { selectCurrentTask, countTotalTime } from '../features/tasks/taskSlice';
 import {
    selectDisplayTime,
    selectIsWorking,
    selectIsPausing,
+   selectPomodoroTime,
+   selectBreakTime,
    selectMode,
    formatTime,
    decrement,
@@ -13,14 +21,23 @@ import {
    stopTimer,
 } from '../features/timer/timerSlice';
 
+const red = "#f54e4e";
+const blue = "#4670F6";
+
 export const Timer = () => {
 
    const isWorking = useAppSelector(selectIsWorking);
    const displayTime = useAppSelector(selectDisplayTime);
    const isPausing = useAppSelector(selectIsPausing);
-   // const currentTask = useAppSelector(selectCurrentTask);
+   const pomodoroTime = useAppSelector(selectPomodoroTime);
+   const breakTime = useAppSelector(selectBreakTime);
+   
    const mode = useAppSelector(selectMode);
    const dispatch = useAppDispatch();
+
+   let totalTime: number = mode === 'pomodoro' ? pomodoroTime : breakTime;
+   let percentage: number = (displayTime / totalTime) * 100;
+   let time: string = formatTime(displayTime);
 
    useEffect(() => {
       let timer = setInterval(decrementTime, 1000);
@@ -38,14 +55,27 @@ export const Timer = () => {
       return () => clearInterval(timer);
    }, [displayTime, isWorking, dispatch]);
 
-   // console.log(currentT)
-
    return (
-      <div className={`timer ${mode === "pomodoro" ? "work-mode" : "brake-mode"}`}>
-         <div className='timer-content'>
+      <div >
+         <Stack alignItems="center">
             <h3>Status Timer: {mode}</h3>
             {/* {currentTask.title && <h3>Current task: {currentTask.title}</h3>} */}
-            <h2>{formatTime(displayTime)}</h2>
+            <Stack width={200} height={200} sx={{ m: 2 }}>
+               <CircularProgressbar
+                  value={percentage}
+                  text={`${time}`}
+                  className="centered"
+                  styles={buildStyles({
+                     strokeLinecap: "butt",
+                     textColor: "#fff",
+                     pathColor: mode === "pomodoro" ? red : blue,
+                     trailColor: "rgba(255,255,255, 0.2)",
+                     pathTransitionDuration: 0.3,
+                  })}
+               ></CircularProgressbar>
+               
+            </Stack>
+
             {!isPausing
                ? <button onClick={() => {
                   !isWorking
@@ -65,8 +95,9 @@ export const Timer = () => {
                   <button onClick={() => dispatch(stopTimer())}>Stop</button>
                </div>
             }
-         </div>
-      </div>
+         </Stack>
+
+      </div >
 
    )
 }
