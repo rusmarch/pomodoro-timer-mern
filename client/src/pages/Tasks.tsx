@@ -53,7 +53,7 @@ export const Tasks = () => {
             />
          ))}
       </div>
-   )
+   );
 
    const renderCompletedTaskList = (
       <div className="tickets">
@@ -64,7 +64,7 @@ export const Tasks = () => {
             />
          ))}
       </div>
-   )
+   );
 
    console.log(tasks);
    return (
@@ -84,6 +84,6 @@ export const Tasks = () => {
          </button>
          {!isCompletedTaskShowing && renderCompletedTaskList}
       </>
-   )
+   );
 }
 

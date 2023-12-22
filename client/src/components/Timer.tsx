@@ -67,7 +67,6 @@ export const Timer = () => {
                   className="centered"
                   styles={buildStyles({
                      strokeLinecap: "butt",
-                     textColor: "#fff",
                      pathColor: mode === "pomodoro" ? red : blue,
                      trailColor: "rgba(255,255,255, 0.2)",
                      pathTransitionDuration: 0.3,
@@ -96,8 +95,6 @@ export const Timer = () => {
                </div>
             }
          </Stack>
-
       </div >
-
    )
-}
+};
