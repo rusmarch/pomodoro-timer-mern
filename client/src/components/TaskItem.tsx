@@ -14,7 +14,7 @@ import {
 } from '../features/tasks/taskSlice';
 import {
    startTrackingTask,
-   selectIsTrackingInPomodoro
+   selectMode,
 } from '../features/timer/timerSlice';
 
 type Props = {
@@ -24,11 +24,11 @@ type Props = {
 export const Task: FC<Props> = ({ task }) => {
 
    const dispatch = useAppDispatch();
-   const isTrackingPomodoro = useAppSelector(selectIsTrackingInPomodoro);
+   const mode = useAppSelector(selectMode);
    const currentTask = useAppSelector(selectCurrentTask) as TaskItem | {};
 
    const isRunning = currentTask && ('_id' in currentTask)
-      && currentTask._id === task._id && isTrackingPomodoro;
+      && currentTask._id === task._id && mode === 'pomodoro';
 
    const completeTask = async () => {
       const updatedTask = { ...task, complete: !task.complete };
@@ -37,7 +37,7 @@ export const Task: FC<Props> = ({ task }) => {
    }
 
    const trackTask = () => {
-      if (!isTrackingPomodoro) {
+      if (mode !== 'pomodoro') {
          dispatch(startTrackingTask());
          dispatch(setCurrentTask(task));
       }

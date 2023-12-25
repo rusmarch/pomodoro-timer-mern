@@ -6,6 +6,7 @@ import {
    reset,
    selectUser
 } from '../features/auth/authSlice';
+import SettingsPopover from './settingsPopover';
 
 export const Header = () => {
 
@@ -23,7 +24,10 @@ export const Header = () => {
    return (
       <header className='header'>
          <div className="logo">
-            <Link to='/'>Pomodoro App</Link>
+            {/* <Link to='/'>Pomodoro App</Link> */}
+
+         <SettingsPopover/>
+
          </div>
          <ul>
             {user ? (

@@ -11,8 +11,7 @@ import {
    selectDisplayTime,
    selectIsWorking,
    selectIsPausing,
-   selectPomodoroTime,
-   selectBreakTime,
+   selectSettings,
    selectMode,
    formatTime,
    decrement,
@@ -29,13 +28,12 @@ export const Timer = () => {
    const isWorking = useAppSelector(selectIsWorking);
    const displayTime = useAppSelector(selectDisplayTime);
    const isPausing = useAppSelector(selectIsPausing);
-   const pomodoroTime = useAppSelector(selectPomodoroTime);
-   const breakTime = useAppSelector(selectBreakTime);
+   const settings = useAppSelector(selectSettings);
    
    const mode = useAppSelector(selectMode);
    const dispatch = useAppDispatch();
 
-   let totalTime: number = mode === 'pomodoro' ? pomodoroTime : breakTime;
+   let totalTime: number = mode === 'pomodoro' ? settings.pomodoroTime : settings.breakTime;
    let percentage: number = (displayTime / totalTime) * 100;
    let time: string = formatTime(displayTime);
 

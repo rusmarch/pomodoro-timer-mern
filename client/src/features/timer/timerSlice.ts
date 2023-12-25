@@ -1,21 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../store/store';
-import { ITimer } from '../../types/timerTypes';
 import { selectCurrentTask, setCurrentTask, updateTask } from '../tasks/taskSlice';
+import { TimerSettings, TimerState } from '../../types/timerTypes';
 
-const pomTime = 1 * 60;
-const brTime = .5 * 60;
 
-const initialState: ITimer = {
-   displayTime: pomTime,
-   pomodoroTime: pomTime,
-   breakTime: brTime,
+const defaultSettings: TimerSettings = {
+   pomodoroTime: 1 * 60,
+   breakTime: .5 * 60,
+};
+
+const initialState: TimerState = {
+   settings: defaultSettings,
+   displayTime: defaultSettings.pomodoroTime,
    isWorking: false,
    isPausing: false,
    mode: "pomodoro",
    workedTime: 0,
    isTrackingInPomodoro: false
-}
+};
 
 export const timerSlice = createSlice({
    name: 'timer',
@@ -36,26 +38,31 @@ export const timerSlice = createSlice({
          state.isPausing = false;
          if (state.mode === "pomodoro") {
             state.mode = "break";
-            state.displayTime = state.breakTime;
+            state.displayTime = state.settings.breakTime;
             state.isTrackingInPomodoro = false;
          } else {
             state.mode = "pomodoro";
-            state.displayTime = state.pomodoroTime;
+            state.displayTime = state.settings.pomodoroTime;
          }
       },
       pause: (state) => {
          state.isPausing = true;
          state.isWorking = false;
       },
+      setDefaultSettings: (state, action: PayloadAction<TimerSettings>) => {
+         if (!state.isWorking) {
+            state.displayTime = action.payload.pomodoroTime;
+         }
+         state.settings = action.payload;
+      },
       setWorkedTime: (state) => {
          if (state.mode === "pomodoro") {
-            state.workedTime = state.pomodoroTime - state.displayTime;
+            state.workedTime = state.settings.pomodoroTime - state.displayTime;
          }
       },
       startTrackingTask: (state) => {
          state.mode = "pomodoro";
-         state.displayTime = state.pomodoroTime;
-         state.isTrackingInPomodoro = true;
+         state.displayTime = state.settings.pomodoroTime;
          state.isWorking = true;
          state.isPausing = false;
       },
@@ -67,10 +74,12 @@ export const selectDisplayTime = (state: RootState) => state.timer.displayTime;
 export const selectIsWorking = (state: RootState) => state.timer.isWorking;
 export const selectIsPausing = (state: RootState) => state.timer.isPausing;
 export const selectMode = (state: RootState) => state.timer.mode;
-export const selectPomodoroTime = (state: RootState) => state.timer.pomodoroTime;
-export const selectBreakTime = (state: RootState) => state.timer.breakTime;
+
+// export const selectPomodoroTime = (state: RootState) => state.timer.pomodoroTime;
+// export const selectBreakTime = (state: RootState) => state.timer.breakTime;
+export const selectSettings = (state: RootState) => state.timer.settings;
+
 export const selectWorkedTime = (state: RootState) => state.timer.workedTime;
-export const selectIsTrackingInPomodoro = (state: RootState) => state.timer.isTrackingInPomodoro;
 export default timerSlice.reducer;
 
 
@@ -84,20 +93,21 @@ export const formatTime = (time: number) => {
 }
 
 
-export const stopTimer = (): AppThunk =>  (dispatch, getState) => {
+export const stopTimer = (): AppThunk => (dispatch, getState) => {
    dispatch(setWorkedTime());
-   
+
    const workedTime = selectWorkedTime(getState());
    const currentTask = selectCurrentTask(getState());
    const mode = selectMode(getState());
-   
+
    if (mode === "pomodoro" && currentTask && 'totalTime' in currentTask) {
-      
-      const updatedTask = { ...currentTask,totalTime: currentTask.totalTime + workedTime }
-      
+
+      const updatedTask = { ...currentTask, totalTime: currentTask.totalTime + workedTime }
+
       dispatch(setCurrentTask(updatedTask));
       dispatch(updateTask(updatedTask))
    }
-   
+
    dispatch(stop());
 }
+

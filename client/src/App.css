@@ -46,7 +46,7 @@ h3 {
 
 .header {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid #e6e6e6;
