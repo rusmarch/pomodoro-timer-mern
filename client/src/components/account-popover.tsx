@@ -21,7 +21,7 @@ import Popover from '@mui/material/Popover';
 
 // ----------------------------------------------------------------------
 
-export default function SettingsPopover() {
+export default function AccountPopover() {
   // const router = useRouter();
 
   // const { user } = useMockedUser();
@@ -48,7 +48,12 @@ export default function SettingsPopover() {
 
       <Popover
         open={!!popover.open}
+        onClose={popover.onClose}
         anchorEl={popover.open}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
         slotProps={{
           paper: {
             sx: {

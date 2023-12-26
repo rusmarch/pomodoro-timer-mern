@@ -1,3 +1,6 @@
+import Stack from '@mui/material/Stack';
+import AppBar from '@mui/material/AppBar';
+
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
@@ -6,7 +9,8 @@ import {
    reset,
    selectUser
 } from '../features/auth/authSlice';
-import SettingsPopover from './settingsPopover';
+import AccountPopover from './account-popover';
+import SettingsPopover from './settings-popover';
 
 export const Header = () => {
 
@@ -22,39 +26,63 @@ export const Header = () => {
 
 
    return (
-      <header className='header'>
-         <div className="logo">
-            {/* <Link to='/'>Pomodoro App</Link> */}
+      <AppBar
+         position="fixed"
+         color="default"
+      >
+         <Stack
+            direction="row"
+            justifyContent="space-between"
+            sx={{ px: 2, py: 1 }}
+         >
+            <Stack
+               direction="row"
+               spacing={2}
+            >
+               <div>
+                  {/* <Link to='/'>Pomodoro App</Link> */}
 
-         <SettingsPopover/>
+                  <AccountPopover />
 
-         </div>
-         <ul>
-            {user ? (
-               <li>
-                  <button
-                     className='btn'
-                     onClick={onLogout}
-                  >
-                     <FaSignOutAlt />Logout
-                  </button>
-               </li>
-            ) : (
-               <>
-                  <li>
-                     <Link to='/login'>
-                        <FaSignInAlt />Login
-                     </Link>
-                  </li>
-                  <li>
-                     <Link to='/register'>
-                        <FaUser />Register
-                     </Link>
-                  </li>
-               </>
-            )}
+               </div>
+               <ul>
+                  {user ? (
+                     <li>
+                        <button
+                           className='btn'
+                           onClick={onLogout}
+                        >
+                           <FaSignOutAlt />Logout
+                        </button>
+                     </li>
+                  ) : (
+                     <>
+                        <li>
+                           <Link to='/login'>
+                              <FaSignInAlt />Login
+                           </Link>
+                        </li>
+                        <li>
+                           <Link to='/register'>
+                              <FaUser />Register
+                           </Link>
+                        </li>
+                     </>
+                  )}
 
-         </ul>
-      </header>
+               </ul>
+
+               <SettingsPopover />
+            </Stack>
+
+            <Stack
+               spacing={2}
+               direction="row"
+            >
+               <SettingsPopover />
+            </Stack>
+
+         </Stack>
+      </AppBar>
    )
 }

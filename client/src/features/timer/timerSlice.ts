@@ -49,11 +49,11 @@ export const timerSlice = createSlice({
          state.isPausing = true;
          state.isWorking = false;
       },
-      setDefaultSettings: (state, action: PayloadAction<TimerSettings>) => {
+      setTimerSettings: (state, action: PayloadAction<TimerSettings>) => {
          if (!state.isWorking) {
             state.displayTime = action.payload.pomodoroTime;
+            state.settings = action.payload;
          }
-         state.settings = action.payload;
       },
       setWorkedTime: (state) => {
          if (state.mode === "pomodoro") {
@@ -69,7 +69,16 @@ export const timerSlice = createSlice({
    }
 })
 
-export const { decrement, start, stop, pause, setWorkedTime, startTrackingTask } = timerSlice.actions;
+export const {
+   decrement,
+   start,
+   stop,
+   pause,
+   setWorkedTime,
+   startTrackingTask,
+   setTimerSettings,
+} = timerSlice.actions;
+
 export const selectDisplayTime = (state: RootState) => state.timer.displayTime;
 export const selectIsWorking = (state: RootState) => state.timer.isWorking;
 export const selectIsPausing = (state: RootState) => state.timer.isPausing;
