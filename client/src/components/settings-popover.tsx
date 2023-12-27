@@ -15,6 +15,7 @@ import {
   selectSettings,
   setTimerSettings,
   selectIsWorking,
+  selectIsPausing,
 } from '../features/timer/timerSlice';
 // import { TimerSettings } from '../../types/timerTypes';
 // import { varHover } from 'src/components/animate';
@@ -33,7 +34,10 @@ export default function SettingsPopover() {
 
   const settings = useAppSelector(selectSettings);
   const isWorking = useAppSelector(selectIsWorking);
+  const isPausings = useAppSelector(selectIsPausing);
   const dispatch = useAppDispatch();
+
+  const settingsDisabled = isWorking || isPausings;
 
   // const router = useRouter();
   // const { user } = useMockedUser();
@@ -120,7 +124,7 @@ export default function SettingsPopover() {
                 >
                   <IconButton
                     onClick={() => updateSettings(setting.name, 'decrement')}
-                    disabled={isWorking}
+                    disabled={settingsDisabled}
                     color='error'
                   >
                     <RemoveCircleOutlineIcon fontSize="small" />
@@ -142,7 +146,7 @@ export default function SettingsPopover() {
 
                   <IconButton
                     onClick={() => updateSettings(setting.name, 'increment')}
-                    disabled={isWorking}
+                    disabled={settingsDisabled}
                     color='error'
                   >
                     <AddCircleOutlineIcon fontSize="small" />

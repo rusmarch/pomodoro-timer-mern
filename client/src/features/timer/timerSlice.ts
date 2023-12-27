@@ -13,7 +13,7 @@ const defaultSettings: TimerSettings = {
 
 const initialState: TimerState = {
    settings: savedSettings ?? defaultSettings,
-   displayTime: defaultSettings.pomodoroTime,
+   displayTime: savedSettings.pomodoroTime ?? defaultSettings.pomodoroTime,
    isWorking: false,
    isPausing: false,
    mode: "pomodoro",
@@ -52,7 +52,7 @@ export const timerSlice = createSlice({
          state.isWorking = false;
       },
       setTimerSettings: (state, action: PayloadAction<TimerSettings>) => {
-         if (!state.isWorking) {
+         if (!state.isWorking && !state.isPausing) {
             state.displayTime = action.payload.pomodoroTime;
             state.settings = action.payload;
          }
