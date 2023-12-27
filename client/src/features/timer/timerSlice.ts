@@ -3,6 +3,8 @@ import { RootState, AppThunk } from '../../store/store';
 import { selectCurrentTask, setCurrentTask, updateTask } from '../tasks/taskSlice';
 import { TimerSettings, TimerState } from '../../types/timerTypes';
 
+const storedSettings = localStorage.getItem('timerSettings') ;
+const savedSettings = storedSettings ? JSON.parse(storedSettings) : null;
 
 const defaultSettings: TimerSettings = {
    pomodoroTime: 1 * 60,
@@ -10,7 +12,7 @@ const defaultSettings: TimerSettings = {
 };
 
 const initialState: TimerState = {
-   settings: defaultSettings,
+   settings: savedSettings ?? defaultSettings,
    displayTime: defaultSettings.pomodoroTime,
    isWorking: false,
    isPausing: false,

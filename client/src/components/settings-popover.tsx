@@ -4,8 +4,6 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
 
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -13,7 +11,11 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 //redux
 import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
-import { selectSettings, setTimerSettings } from '../features/timer/timerSlice';
+import {
+  selectSettings,
+  setTimerSettings,
+  selectIsWorking,
+} from '../features/timer/timerSlice';
 // import { TimerSettings } from '../../types/timerTypes';
 // import { varHover } from 'src/components/animate';
 
@@ -30,6 +32,7 @@ import { TimerSettings } from '../types/timerTypes';
 export default function SettingsPopover() {
 
   const settings = useAppSelector(selectSettings);
+  const isWorking = useAppSelector(selectIsWorking);
   const dispatch = useAppDispatch();
 
   // const router = useRouter();
@@ -37,16 +40,27 @@ export default function SettingsPopover() {
   // const { logout } = useAuthContext();
   // const { enqueueSnackbar } = useSnackbar();
 
+  const settingsList = [
+    {
+      name: 'pomodoroTime' as keyof TimerSettings,
+      label: 'Pomodoro duration',
+      value: settings.pomodoroTime,
+    },
+    {
+      name: 'breakTime' as keyof TimerSettings,
+      label: 'Break duration',
+      value: settings.breakTime,
+    },
+  ];
+
   const updateSettings = (
-    time: keyof TimerSettings,
-    multiplier: number
+    key: keyof TimerSettings,
+    type: 'increment' | 'decrement'
   ) => {
-    dispatch(
-      setTimerSettings({
-        ...settings,
-        [time]: settings[time] + multiplier,
-      })
-    );
+    const value = type === 'increment' ? settings[key] + 1 : settings[key] - 1;
+    const updatedSettings = { ...settings, [key]: value };
+    dispatch(setTimerSettings(updatedSettings));
+    localStorage.setItem('timerSettings', JSON.stringify(updatedSettings));
   };
 
   const popover = usePopover();
@@ -72,38 +86,41 @@ export default function SettingsPopover() {
           vertical: 'bottom',
           horizontal: 'right',
         }}
-        sx={{ width: 500, p: 1 }}
+        sx={{ width: 500 }}
       >
-
-        <Box sx={{ px: 2, py: 1 }}>
-          <Typography variant="subtitle1">
-            Timer Settings
-          </Typography>
-          {/* <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+        <Stack sx={{ pl: 1.5, py: 1 }} >
+          <Box>
+            <Typography variant="subtitle1">Timer Settings</Typography>
+            {/* <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             Change working or brake time setttings here
           </Typography> */}
-        </Box>
+          </Box>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+          <Divider sx={{ borderStyle: 'dashed', mb: 2 }} />
 
-        <Stack spacing={2}>
-          <MenuList>
-            <MenuItem>
+          <Stack spacing={1}>
+
+            {settingsList.map((setting) => (
               <Stack
+                key={setting.name}
                 direction="row"
                 alignItems="center"
+                justifyContent="space-between"
               >
-                <Typography variant="body2" color="text.secondary">
-                  Pomodoro duration:
-                </Typography>
+                <Box>
+                  <Typography variant="body2" color="text.secondary" noWrap>
+                    {setting.label}
+                  </Typography>
+                </Box>
 
                 <Stack
                   direction="row"
-                  alignItems="space-between"
-                  justifyContent="space-between"
+                  alignItems="center"
+                  justifyContent="flex-end"
                 >
                   <IconButton
-                    onClick={() => updateSettings('pomodoroTime', -1)}
+                    onClick={() => updateSettings(setting.name, 'decrement')}
+                    disabled={isWorking}
                     color='error'
                   >
                     <RemoveCircleOutlineIcon fontSize="small" />
@@ -113,17 +130,19 @@ export default function SettingsPopover() {
                     sx={{
                       px: .5,
                       py: 0,
-                      border: 2,
-                      borderRadius: 2,
-                      borderColor: 'text.secondary'
+                      // color: 'green',
+                      // border: 2,
+                      // borderRadius: 2,
+                      // borderColor: 'text.secondary'
                     }}
-                    color="default"
+                    color="text.secondary"
                   >
-                    {settings.pomodoroTime}
+                    {setting.value}
                   </Typography>
 
                   <IconButton
-                    onClick={() => updateSettings('pomodoroTime', 1)}
+                    onClick={() => updateSettings(setting.name, 'increment')}
+                    disabled={isWorking}
                     color='error'
                   >
                     <AddCircleOutlineIcon fontSize="small" />
@@ -131,57 +150,11 @@ export default function SettingsPopover() {
                 </Stack>
 
               </Stack>
-            </MenuItem>
+              // </MenuItem>
+            ))}
+          </Stack>
 
-            <MenuItem>
-              <Stack
-                direction="row"
-                alignItems="center"
-              >
-                <Typography variant="body2" color="text.secondary">
-                  Pomodoro duration:
-                </Typography>
-
-                <Stack
-                  direction="row"
-                  // justifyContent="space-between"
-                  alignItems="space-between"
-                  justifyContent="space-between"
-                >
-                  <IconButton
-                    color='error'
-                    onClick={() => updateSettings('breakTime', -1)}
-                  >
-                    <RemoveCircleOutlineIcon fontSize="small" />
-                  </IconButton>
-
-                  <Typography
-                    sx={{
-                      justifyContent: 'center',
-                      px: .5,
-                      border: 2,
-                      borderRadius: 2,
-                      borderColor: 'text.secondary'
-                    }}
-                    color="default"
-                  >
-                    {settings.breakTime}
-                  </Typography>
-
-                  <IconButton
-                    color='error'
-                    onClick={() => updateSettings('breakTime', 1)}
-                  >
-                    <AddCircleOutlineIcon fontSize="small" />
-                  </IconButton>
-                </Stack>
-
-              </Stack>
-            </MenuItem>
-
-          </MenuList>
         </Stack>
-
       </Popover >
     </>
   );
