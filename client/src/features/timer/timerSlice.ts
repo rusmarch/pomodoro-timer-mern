@@ -94,7 +94,7 @@ export const selectWorkedTime = (state: RootState) => state.timer.workedTime;
 export default timerSlice.reducer;
 
 
-export const formatTime = (time: number) => {
+export const formatTimerTime = (time: number) => {
    let minutes = Math.floor(time / 60);
    let seconds = time % 60;
 

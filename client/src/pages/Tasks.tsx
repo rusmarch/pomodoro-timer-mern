@@ -12,6 +12,7 @@ import { BackButton } from '../components/BackButton';
 import { Task } from '../components/TaskItem';
 import { TaskForm } from '../components/TaskForm';
 import { Timer } from '../components/Timer';
+import TimerPopover from '../components/timer-popover';
 
 export const Tasks = () => {
 
@@ -70,7 +71,7 @@ export const Tasks = () => {
    return (
       <>
          <BackButton /* url='/' */ />
-         <Timer />
+         {/* <Timer /> */}
          <h1>Tasks List</h1>
          <TaskForm />
          <h5 style={{ textAlign: 'right' }}>Show  tasks</h5>
@@ -83,6 +84,7 @@ export const Tasks = () => {
             {`${isCompletedTaskShowing ? 'Hide' : 'Show'} completed tasks`}
          </button>
          {!isCompletedTaskShowing && renderCompletedTaskList}
+         <TimerPopover />
       </>
    );
 }

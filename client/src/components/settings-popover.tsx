@@ -17,12 +17,11 @@ import {
   selectIsWorking,
   selectIsPausing,
 } from '../features/timer/timerSlice';
-// import { TimerSettings } from '../../types/timerTypes';
 // import { varHover } from 'src/components/animate';
 
 import usePopover from '../hooks/use-popover';
-import Popover from '@mui/material/Popover';
 import { TimerSettings } from '../types/timerTypes';
+import CustomPopover from './custom-popover/custom-popover';
 
 // import { useSnackbar } from 'src/components/snackbar';
 // import { useRouter } from 'src/routes/hooks';
@@ -82,15 +81,15 @@ export default function SettingsPopover() {
 
       </IconButton>
 
-      <Popover
-        open={!!popover.open}
+      <CustomPopover
+        open={popover.open}
         onClose={popover.onClose}
         anchorEl={popover.open}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right',
         }}
-        sx={{ width: 500 }}
+        sx={{ width: 250 }}
       >
         <Stack sx={{ pl: 1.5, py: 1 }} >
           <Box>
@@ -159,7 +158,7 @@ export default function SettingsPopover() {
           </Stack>
 
         </Stack>
-      </Popover >
+      </CustomPopover >
     </>
   );
 };
