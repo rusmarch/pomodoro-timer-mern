@@ -1,22 +1,23 @@
+import { formatPopoverTime } from './../../utils/format-time';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../store/store';
 import { selectCurrentTask, setCurrentTask, updateTask } from '../tasks/taskSlice';
 import { TimerSettings, TimerState } from '../../types/timerTypes';
 
-const storedSettings = localStorage.getItem('timerSettings') ;
-const savedSettings = storedSettings ? JSON.parse(storedSettings) : null;
+const storedSettings = localStorage.getItem('timerSettings');
+export const savedSettings = storedSettings ? JSON.parse(storedSettings) : null;
 
-const defaultSettings: TimerSettings = {
-   pomodoroTime: 1 * 60,
-   breakTime: .5 * 60,
+export const defaultSettings: TimerSettings = {
+   pomodoroTime: .5 * 60,
+   breakTime: .3 * 60,
 };
 
 const initialState: TimerState = {
-   settings: savedSettings ?? defaultSettings,
-   displayTime: savedSettings.pomodoroTime ?? defaultSettings.pomodoroTime,
+   secondsLeft: defaultSettings.pomodoroTime,
+   settings: defaultSettings,
    isWorking: false,
-   isPausing: false,
-   mode: "pomodoro",
+   isPaused: false,
+   isBreak: false,
    workedTime: 0,
    isTrackingInPomodoro: false
 };
@@ -25,100 +26,89 @@ export const timerSlice = createSlice({
    name: 'timer',
    initialState,
    reducers: {
-      decrement: (state) => {
-         state.displayTime -= 1;
+      decrementSecondsLeft: (state) => {
+         state.secondsLeft -= 1;
       },
-      start: (state) => {
-         state.isWorking = true;
-         state.isPausing = false;
-         if (state.mode === "pomodoro") {
+      startPause: (state) => {
+         if (!state.isWorking) {      // Two cases:
+            state.isWorking = true;   // 1 - click "Continue" when paused
+            state.isPaused = false;   // 2 - click "Start" whin unpaused
+         } else if (!state.isBreak) { //  All the rest - when is working
+            state.isWorking = false;  // click "Pause" in working
+            state.isPaused = true;
+         } else {
+            state.isWorking = false;  // click Skip break 
+            state.isPaused = false;
+            state.secondsLeft = state.settings.pomodoroTime;
+            state.isBreak = false;
+         }
+         // to fix it then
+         if (!state.isBreak) {
             state.isTrackingInPomodoro = true;
          }
       },
       stop: (state) => {
          state.isWorking = false;
-         state.isPausing = false;
-         if (state.mode === "pomodoro") {
-            state.mode = "break";
-            state.displayTime = state.settings.breakTime;
-            state.isTrackingInPomodoro = false;
+         state.isPaused = false;
+
+         if (!state.isBreak) {
+            state.workedTime = state.settings.pomodoroTime - state.secondsLeft;
+            state.secondsLeft = state.settings.breakTime;
          } else {
-            state.mode = "pomodoro";
-            state.displayTime = state.settings.pomodoroTime;
+            state.secondsLeft = state.settings.pomodoroTime;
          }
-      },
-      pause: (state) => {
-         state.isPausing = true;
-         state.isWorking = false;
+
+         state.isBreak = !state.isBreak;
+         state.isTrackingInPomodoro = false; // WTF??? remove this then
       },
       setTimerSettings: (state, action: PayloadAction<TimerSettings>) => {
-         if (!state.isWorking && !state.isPausing) {
-            state.displayTime = action.payload.pomodoroTime;
+         if (!state.isWorking && !state.isPaused) {
             state.settings = action.payload;
          }
       },
-      setWorkedTime: (state) => {
-         if (state.mode === "pomodoro") {
-            state.workedTime = state.settings.pomodoroTime - state.displayTime;
-         }
-      },
+      // setWorkedTime: (state, action: PayloadAction<number>) => {
+      //    if (!state.isBreak) {
+      //       state.workedTime = state.settings.pomodoroTime - action.payload;
+      //    }
+      // },
       startTrackingTask: (state) => {
-         state.mode = "pomodoro";
-         state.displayTime = state.settings.pomodoroTime;
+         state.isBreak = false;
          state.isWorking = true;
-         state.isPausing = false;
+         state.isPaused = false;
       },
    }
 })
 
 export const {
-   decrement,
-   start,
+   startPause,
    stop,
-   pause,
-   setWorkedTime,
+   decrementSecondsLeft,
+   // setWorkedTime,
    startTrackingTask,
    setTimerSettings,
 } = timerSlice.actions;
 
-export const selectDisplayTime = (state: RootState) => state.timer.displayTime;
+export const selectSecondsLeft = (state: RootState) => state.timer.secondsLeft;
 export const selectIsWorking = (state: RootState) => state.timer.isWorking;
-export const selectIsPausing = (state: RootState) => state.timer.isPausing;
-export const selectMode = (state: RootState) => state.timer.mode;
-
-// export const selectPomodoroTime = (state: RootState) => state.timer.pomodoroTime;
-// export const selectBreakTime = (state: RootState) => state.timer.breakTime;
+export const selectIsPaused = (state: RootState) => state.timer.isPaused;
+export const selectIsBreak = (state: RootState) => state.timer.isBreak;
 export const selectSettings = (state: RootState) => state.timer.settings;
-
 export const selectWorkedTime = (state: RootState) => state.timer.workedTime;
 export default timerSlice.reducer;
 
+// export const stopTimer = (): AppThunk => (dispatch, getState) => {
 
-export const formatTimerTime = (time: number) => {
-   let minutes = Math.floor(time / 60);
-   let seconds = time % 60;
+//    const workedTime = selectWorkedTime(getState());
+//    const currentTask = selectCurrentTask(getState());
+//    const isBreak = selectIsBreak(getState());
 
-   return (
-      (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds)
-   );
-}
+//    if (!isBreak && currentTask && 'totalTime' in currentTask) {
 
+//       const updatedTask = { ...currentTask, totalTime: currentTask.totalTime + workedTime }
 
-export const stopTimer = (): AppThunk => (dispatch, getState) => {
-   dispatch(setWorkedTime());
+//       dispatch(setCurrentTask(updatedTask));
+//       dispatch(updateTask(updatedTask))
+//    }
 
-   const workedTime = selectWorkedTime(getState());
-   const currentTask = selectCurrentTask(getState());
-   const mode = selectMode(getState());
-
-   if (mode === "pomodoro" && currentTask && 'totalTime' in currentTask) {
-
-      const updatedTask = { ...currentTask, totalTime: currentTask.totalTime + workedTime }
-
-      dispatch(setCurrentTask(updatedTask));
-      dispatch(updateTask(updatedTask))
-   }
-
-   dispatch(stop());
-}
-
+//    dispatch(stop());
+// }

@@ -11,7 +11,6 @@ import { Spinner } from '../components/Spinner';
 import { BackButton } from '../components/BackButton';
 import { Task } from '../components/TaskItem';
 import { TaskForm } from '../components/TaskForm';
-import { Timer } from '../components/Timer';
 import TimerPopover from '../components/timer-popover';
 
 export const Tasks = () => {

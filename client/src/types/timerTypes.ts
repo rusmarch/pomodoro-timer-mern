@@ -1,16 +1,14 @@
-export type TimerMode = 'pomodoro' | 'break';
-
 export type TimerSettings = {
    pomodoroTime: number,
    breakTime: number,
 };
 
 export type TimerState = {
+   secondsLeft: number,
    settings: TimerSettings,
-   displayTime: number,
    isWorking: boolean,
-   isPausing: boolean,
-   mode: "pomodoro" | "break",
+   isPaused: boolean,
+   isBreak: boolean,
    workedTime: number,
    isTrackingInPomodoro: boolean,
 };

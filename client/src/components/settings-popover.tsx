@@ -15,10 +15,11 @@ import {
   selectSettings,
   setTimerSettings,
   selectIsWorking,
-  selectIsPausing,
+  selectIsPaused,
 } from '../features/timer/timerSlice';
 // import { varHover } from 'src/components/animate';
 
+import { useTimeDisplay } from '../hooks/use-time-display';
 import usePopover from '../hooks/use-popover';
 import { TimerSettings } from '../types/timerTypes';
 import CustomPopover from './custom-popover/custom-popover';
@@ -33,11 +34,11 @@ export default function SettingsPopover() {
 
   const settings = useAppSelector(selectSettings);
   const isWorking = useAppSelector(selectIsWorking);
-  const isPausings = useAppSelector(selectIsPausing);
+  const isPaused = useAppSelector(selectIsPaused);
   const dispatch = useAppDispatch();
 
-  const settingsDisabled = isWorking || isPausings;
-
+  const settingsDisabled = isWorking || isPaused;
+  const { popoverTime } = useTimeDisplay();
   // const router = useRouter();
   // const { user } = useMockedUser();
   // const { logout } = useAuthContext();
@@ -63,6 +64,11 @@ export default function SettingsPopover() {
     const value = type === 'increment' ? settings[key] + 1 : settings[key] - 1;
     const updatedSettings = { ...settings, [key]: value };
     dispatch(setTimerSettings(updatedSettings));
+
+    if (!settingsDisabled) {
+      // setDisplayTime(updatedSettings.pomodoroTime);
+    }
+
     localStorage.setItem('timerSettings', JSON.stringify(updatedSettings));
   };
 

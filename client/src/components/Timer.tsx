@@ -1,80 +1,52 @@
-import { useEffect, useRef } from 'react';
-import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
+import Stack from '@mui/material/Stack';
+
+import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-import Stack from '@mui/material/Stack';
-
 // import { selectCurrentTask, countTotalTime } from '../features/tasks/taskSlice';
 import {
-   selectDisplayTime,
+   selectIsBreak,
    selectIsWorking,
-   selectIsPausing,
+   selectIsPaused,
+   startPause,
+   stop,
    selectSettings,
-   selectMode,
-   formatTimerTime,
-   decrement,
-   start,
-   pause,
-   stopTimer,
+   // setWorkedTime,
 } from '../features/timer/timerSlice';
+import { useTimeDisplay } from '../hooks/use-time-display';
+import { TimerButton } from './timer-button';
+
+// import { TimerState } from '../types/timerTypes';
 
 const red = "#f54e4e";
-const blue = "#4670F6";
+const blue = "#f670F6";
+
+// type TimerProps = Omit<TimerState, 'workedTime' | 'isTrackingInPomodoro'>;
 
 export const Timer = () => {
 
+   const isBreak = useAppSelector(selectIsBreak);
    const isWorking = useAppSelector(selectIsWorking);
-   const displayTime = useAppSelector(selectDisplayTime);
-   const isPausing = useAppSelector(selectIsPausing);
+   const isPaused = useAppSelector(selectIsPaused);
    const settings = useAppSelector(selectSettings);
 
-   const mode = useAppSelector(selectMode);
+   const { timerTime, percentage } = useTimeDisplay();
    const dispatch = useAppDispatch();
-
-   let totalTime: number = mode === 'pomodoro' ? settings.pomodoroTime : settings.breakTime;
-   let percentage: number = (displayTime / totalTime) * 100;
-   let time: string = formatTimerTime(displayTime);
-
-   const timerIntervalRef = useRef<number | NodeJS.Timeout | null>(null);
-
-   useEffect(() => {
-      // let timer = setInterval(decrementTime, 1000);
-
-      function decrementTime() {
-         if (isWorking) {
-            if (displayTime > 0) {
-               dispatch(decrement());
-            } else {
-               dispatch(stopTimer());
-               clearInterval(timerIntervalRef.current as number);
-            }
-         }
-      };
-
-      if (timerIntervalRef.current !== null) {
-         clearInterval(timerIntervalRef.current as number);
-      }
-
-    timerIntervalRef.current = setInterval(decrementTime, 1000);
-
-
-      return () => clearInterval(timerIntervalRef.current as number);
-   }, [displayTime, isWorking, dispatch, mode, settings]);
 
    return (
       <Stack alignItems="center" >
-         <h3>Status Timer: {mode}</h3>
+         <h3>{isWorking ? 'WORKING...' : 'Stopped'}</h3>
+         <h3>Status Timer: {!isBreak ? 'Pomodoro' : 'Break'}</h3>
          {/* {currentTask.title && <h3>Current task: {currentTask.title}</h3>} */}
          <Stack width={200} height={200} sx={{ m: 2 }}>
             <CircularProgressbar
                value={percentage}
-               text={`${time}`}
-               className="centered"
+               text={`${timerTime}`}
                styles={buildStyles({
                   strokeLinecap: "butt",
-                  pathColor: mode === "pomodoro" ? red : blue,
+                  pathColor: !isBreak ? red : blue,
                   trailColor: "rgba(255,255,255, 0.2)",
                   pathTransitionDuration: 0.3,
                })}
@@ -82,25 +54,34 @@ export const Timer = () => {
 
          </Stack>
 
-         {!isPausing
+         {/* {!isWorking
             ? <button onClick={() => {
                !isWorking
-                  ? dispatch(start())
-                  : mode === "pomodoro"
-                     ? dispatch(pause())
-                     : dispatch(stopTimer())
+                  ? dispatch(startPause())
+                  : !isBreak
+                     ? dispatch(startPause())
+                     : stopTimer(time) // skipping break when break is running
             }}>
                {!isWorking
                   ? "Start"
-                  : mode === "pomodoro"
+                  : !isBreak
                      ? "Pause"
                      : "Skip brake"}
             </button>
             : <div>
-               <button onClick={() => dispatch(start())}>Continue</button>
-               <button onClick={() => dispatch(stopTimer())}>Stop</button>
+               <button onClick={() => dispatch(startPause())}>Continue</button>
+               <button onClick={() => stopTimer(time)}>Stop</button>
             </div>
-         }
+         } */}
+
+         <TimerButton
+           isWorking={isWorking}      
+           isPaused={isPaused}
+           isBreak={isBreak}
+           onStartPause={() => dispatch(startPause())}
+           onStop={() => dispatch(stop())}
+         />
+
       </Stack>
    );
 };

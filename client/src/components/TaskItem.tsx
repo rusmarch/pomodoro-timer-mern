@@ -14,8 +14,10 @@ import {
 } from '../features/tasks/taskSlice';
 import {
    startTrackingTask,
-   selectMode,
+   selectIsBreak,
+   selectSettings,
 } from '../features/timer/timerSlice';
+// import { useTimeDisplay } from '../hooks/use-time-display';
 
 type Props = {
    task: TaskItem,
@@ -23,12 +25,14 @@ type Props = {
 
 export const Task: FC<Props> = ({ task }) => {
 
-   const dispatch = useAppDispatch();
-   const mode = useAppSelector(selectMode);
+   const isBreak = useAppSelector(selectIsBreak);
    const currentTask = useAppSelector(selectCurrentTask) as TaskItem | {};
+   const settings = useAppSelector(selectSettings);
+   const dispatch = useAppDispatch();
+   // const { time } = useTimeDisplay();
 
    const isRunning = currentTask && ('_id' in currentTask)
-      && currentTask._id === task._id && mode === 'pomodoro';
+      && currentTask._id === task._id && !isBreak;
 
    const completeTask = async () => {
       const updatedTask = { ...task, complete: !task.complete };
@@ -37,15 +41,16 @@ export const Task: FC<Props> = ({ task }) => {
    }
 
    const trackTask = () => {
-      if (mode !== 'pomodoro') {
+      if (!isBreak) {
+         // setDisplayTime(settings.pomodoroTime);
          dispatch(startTrackingTask());
          dispatch(setCurrentTask(task));
       }
-   }
+   };
 
    const remove = (id: string) => {
       dispatch(removeTask(id))
-   }
+   };
 
    return (
       <div className="task">
