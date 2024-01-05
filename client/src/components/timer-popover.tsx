@@ -18,11 +18,13 @@ export default function TimerPopover() {
    const popover = usePopover();
    const { popoverTime, percentage } = useTimeDisplay(Boolean(!popover.open));
 
+   // console.log(popoverTime);
+
    return (
       <>
          <Stack
             onClick={popover.onOpen}
-            
+
             sx={{
                position: 'fixed',
                bottom: 50, left: '50%',
@@ -37,6 +39,9 @@ export default function TimerPopover() {
                   height: 120,
                   borderRadius: '20%',
                   backgroundColor: !isBreak ? 'red' : 'blue',
+                  '&:hover': {
+                     backgroundColor: !isBreak ? 'red' : 'blue',
+                  },
                }}
             >
                <Typography variant="h3" color="#fff" >

@@ -8,7 +8,7 @@ const storedSettings = localStorage.getItem('timerSettings');
 export const savedSettings = storedSettings ? JSON.parse(storedSettings) : null;
 
 export const defaultSettings: TimerSettings = {
-   pomodoroTime: .5 * 60,
+   pomodoroTime: 2.3 * 60,
    breakTime: .3 * 60,
 };
 

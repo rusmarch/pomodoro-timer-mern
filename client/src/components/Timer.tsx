@@ -21,7 +21,7 @@ import { TimerButton } from './timer-button';
 // import { TimerState } from '../types/timerTypes';
 
 const red = "#f54e4e";
-const blue = "#f670F6";
+const blue = "#3399ff";
 
 // type TimerProps = Omit<TimerState, 'workedTime' | 'isTrackingInPomodoro'>;
 
@@ -46,7 +46,7 @@ export const Timer = () => {
                text={`${timerTime}`}
                styles={buildStyles({
                   strokeLinecap: "butt",
-                  pathColor: !isBreak ? red : blue,
+                  pathColor: isBreak ? blue : red,
                   trailColor: "rgba(255,255,255, 0.2)",
                   pathTransitionDuration: 0.3,
                })}
