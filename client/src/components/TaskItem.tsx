@@ -29,7 +29,6 @@ export const Task: FC<Props> = ({ task }) => {
    const currentTask = useAppSelector(selectCurrentTask) as TaskItem | {};
    const settings = useAppSelector(selectSettings);
    const dispatch = useAppDispatch();
-   // const { time } = useTimeDisplay();
 
    const isRunning = currentTask && ('_id' in currentTask)
       && currentTask._id === task._id && !isBreak;
@@ -42,7 +41,6 @@ export const Task: FC<Props> = ({ task }) => {
 
    const trackTask = () => {
       if (!isBreak) {
-         // setDisplayTime(settings.pomodoroTime);
          dispatch(startTrackingTask());
          dispatch(setCurrentTask(task));
       }

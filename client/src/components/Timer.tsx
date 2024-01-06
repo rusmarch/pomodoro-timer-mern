@@ -13,7 +13,6 @@ import {
    startPause,
    stop,
    selectSettings,
-   // setWorkedTime,
 } from '../features/timer/timerSlice';
 import { useTimeDisplay } from '../hooks/use-time-display';
 import { TimerButton } from './timer-button';

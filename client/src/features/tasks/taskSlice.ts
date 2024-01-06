@@ -152,7 +152,6 @@ export const selectIsLoading = (state: RootState) => state.tasks.isLoading;
 export const selectIsError = (state: RootState) => state.tasks.isError;
 export const selectMessage = (state: RootState) => state.tasks.message;
 
-
 export const {
    reset,
    setCurrentTask,

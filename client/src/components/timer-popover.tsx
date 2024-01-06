@@ -16,9 +16,7 @@ export default function TimerPopover() {
    const isBreak = useAppSelector(selectIsBreak);
 
    const popover = usePopover();
-   const { popoverTime, percentage } = useTimeDisplay(Boolean(!popover.open));
-
-   // console.log(popoverTime);
+   const { popoverTime } = useTimeDisplay(Boolean(!popover.open));
 
    return (
       <>

@@ -6,13 +6,12 @@ import {
    selectIsWorking,
    selectSettings,
    selectIsBreak,
-   selectWorkedTime,
    stop,
    decrementSecondsLeft,
 } from '../features/timer/timerSlice';
 import {
    selectCurrentTask,
-   setCurrentTask,
+   // setCurrentTask,
    updateTask
 } from '../features/tasks/taskSlice';
 
@@ -32,7 +31,7 @@ export const useTimeDisplay = (isPopoverClosed?: boolean): ReturnType => {
    const isBreak = useAppSelector(selectIsBreak);
    const isWorking = useAppSelector(selectIsWorking);
    const settings = useAppSelector(selectSettings);
-   const workedTime = useAppSelector(selectWorkedTime);
+   // const workedTime = useAppSelector(selectWorkedTime);
    const currentTask = useAppSelector(selectCurrentTask);
    const dispatch = useAppDispatch();
 
@@ -56,15 +55,14 @@ export const useTimeDisplay = (isPopoverClosed?: boolean): ReturnType => {
             if (secondsLeft > 0) {
                dispatch(decrementSecondsLeft());
             } else {
+               if (currentTask && 'totalTime' in currentTask) {
+                  const workedTime = settings.pomodoroTime - secondsLeft;
+                  const updatedTask = { ...currentTask, totalTime: currentTask.totalTime + workedTime }
+                  dispatch(updateTask(updatedTask))
+               }
 
                dispatch(stop());
-               // if (!isBreak) {
-               //    if (currentTask && 'totalTime' in currentTask) {
-               //       const updatedTask = { ...currentTask, totalTime: currentTask.totalTime + workedTime }
-               //       dispatch(setCurrentTask(updatedTask));
-               //       dispatch(updateTask(updatedTask))
-               //    }
-               // }
+
                clearInterval(timerIntervalRef.current as number);
             }
          }
@@ -84,7 +82,7 @@ export const useTimeDisplay = (isPopoverClosed?: boolean): ReturnType => {
       dispatch,
       isPopoverClosed,
       currentTask,
-      workedTime,
+      // workedTime,
       settings,
    ]);
 

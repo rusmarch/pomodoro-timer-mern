@@ -9,6 +9,5 @@ export type TimerState = {
    isWorking: boolean,
    isPaused: boolean,
    isBreak: boolean,
-   workedTime: number,
    isTrackingInPomodoro: boolean,
 };
