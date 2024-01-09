@@ -48,11 +48,11 @@ export const timerSlice = createSlice({
          state.isWorking = false;
          state.isPaused = false;
 
-         // if (!state.isBreak) {
-         //    state.secondsLeft = state.settings.breakTime;
-         // } else {
-         //    state.secondsLeft = state.settings.pomodoroTime;
-         // }
+         if (!state.isBreak) {
+            state.secondsLeft = state.settings.breakTime;
+         } else {
+            state.secondsLeft = state.settings.pomodoroTime;
+         }
 
          state.isBreak = !state.isBreak;
          state.isTrackingInPomodoro = false; // WTF??? remove this then

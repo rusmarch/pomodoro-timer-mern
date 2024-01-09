@@ -5,13 +5,14 @@ import { TaskItem } from '../../types/taskTypes';
 import { taskService } from './taskService';
 
 export type TaskState = {
-   currentTask: TaskItem | {},        
+   currentTask: TaskItem | {},
    oneTask: TaskItem | {},
    allTasks: TaskItem[] | [],
    isLoading: boolean,
    isSuccess: boolean,
    isError: boolean,
-   message: string
+   message: string,
+   searchQuery: string,
 }
 
 const initialState: TaskState = {
@@ -21,7 +22,8 @@ const initialState: TaskState = {
    isLoading: false,
    isSuccess: false,
    isError: false,
-   message: ''
+   message: '',
+   searchQuery: '',
 }
 
 export const createNewTask = createAsyncThunk(
@@ -112,10 +114,10 @@ export const taskSlice = createSlice({
             task._id === action.payload._id
                ? { ...task, complete: action.payload.complete }
                : task)
-      }
-      // search: (state, action: PayloadAction<string>) => {
-      //    state.searchQuery = action.payload
-      // },
+      },
+      setSearchQuery: (state, action: PayloadAction<string>) => {
+         state.searchQuery = action.payload;
+      },
       // editTask: (state, action: PayloadAction<TaskItem>) => {
       //    state.tasks = state.tasks.map(task =>
       //       task.id === action.payload.id
@@ -151,10 +153,13 @@ export const selectIsSuccess = (state: RootState) => state.tasks.isError;
 export const selectIsLoading = (state: RootState) => state.tasks.isLoading;
 export const selectIsError = (state: RootState) => state.tasks.isError;
 export const selectMessage = (state: RootState) => state.tasks.message;
+export const selectSearchQuery = (state: RootState) => state.tasks.searchQuery;
 
 export const {
    reset,
    setCurrentTask,
    complete,
+   setSearchQuery,
 } = taskSlice.actions;
+
 export default taskSlice.reducer;

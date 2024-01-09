@@ -1,5 +1,4 @@
 // import { Link } from "react-router-dom"
-import { FC, useState } from 'react';
 import { TaskItem } from "../types/taskTypes";
 import { Checkbox } from './Checkbox';
 import { StartButton } from './StartButton';
@@ -15,19 +14,16 @@ import {
 import {
    startTrackingTask,
    selectIsBreak,
-   selectSettings,
 } from '../features/timer/timerSlice';
-// import { useTimeDisplay } from '../hooks/use-time-display';
 
 type Props = {
    task: TaskItem,
 }
 
-export const Task: FC<Props> = ({ task }) => {
+export const Task = ({ task }: Props) => {
 
    const isBreak = useAppSelector(selectIsBreak);
    const currentTask = useAppSelector(selectCurrentTask) as TaskItem | {};
-   const settings = useAppSelector(selectSettings);
    const dispatch = useAppDispatch();
 
    const isRunning = currentTask && ('_id' in currentTask)

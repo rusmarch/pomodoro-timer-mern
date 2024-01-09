@@ -2,20 +2,25 @@ import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 import {
    selectAllTasks,
+   selectSearchQuery,
    selectIsLoading,
    selectIsSuccess,
    getAllTask,
-   reset
+   reset,
+   setSearchQuery,
 } from '../features/tasks/taskSlice';
 import { Spinner } from '../components/Spinner';
 import { BackButton } from '../components/BackButton';
 import { Task } from '../components/TaskItem';
 import { TaskForm } from '../components/TaskForm';
 import TimerPopover from '../components/timer-popover';
+import { SearchInput } from '../components/search-input';
+
 
 export const Tasks = () => {
 
    const tasks = useAppSelector(selectAllTasks);
+   const searchQuery = useAppSelector(selectSearchQuery);
    const isLoading = useAppSelector(selectIsLoading);
    const isSuccess = useAppSelector(selectIsSuccess);
    const dispatch = useAppDispatch();
@@ -36,8 +41,11 @@ export const Tasks = () => {
       // .then(())
    }, [dispatch])
 
-   if (isLoading) {
-      return <Spinner />
+   const filteredTasks = tasks.filter((task) =>
+      task.title.toLowerCase().includes(searchQuery.toLowerCase()));
+
+   const onSearch = (v: string) => {
+      dispatch(setSearchQuery(v));
    }
 
    const showCompletedTask = () => {
@@ -46,7 +54,7 @@ export const Tasks = () => {
 
    const renderTaskList = (
       <div className="tickets">
-         {tasks.map(task => (
+         {filteredTasks.map(task => (
             !task.complete && <Task
                key={task._id}
                task={task}
@@ -66,14 +74,24 @@ export const Tasks = () => {
       </div>
    );
 
-   // console.log(tasks);
+   if (isLoading) {
+      return <Spinner />
+   }
+
    return (
       <>
          <BackButton /* url='/' */ />
          {/* <Timer /> */}
          <h1>Tasks List</h1>
          <TaskForm />
-         <h5 style={{ textAlign: 'right' }}>Show  tasks</h5>
+
+         <SearchInput
+            query={searchQuery}
+            onSearch={onSearch}
+            sx={{ mb: 2 }}
+         />
+
+         <h5 style={{ textAlign: 'right' }}>Show tasks</h5>
          <br />
          {renderTaskList}
          <br />
@@ -82,9 +100,8 @@ export const Tasks = () => {
          >
             {`${isCompletedTaskShowing ? 'Hide' : 'Show'} completed tasks`}
          </button>
-         {!isCompletedTaskShowing && renderCompletedTaskList}
+         {isCompletedTaskShowing && renderCompletedTaskList}
          <TimerPopover />
       </>
    );
-}
-
+};
