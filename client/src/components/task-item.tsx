@@ -1,7 +1,7 @@
 // import { Link } from "react-router-dom"
-import { TaskItem } from "../types/taskTypes";
+import { Task } from "../types/taskTypes";
 import { Checkbox } from './Checkbox';
-import { StartButton } from './StartButton';
+import { TrackTaskButton } from './track-task-button';
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 import {
@@ -12,22 +12,24 @@ import {
    complete,
 } from '../features/tasks/taskSlice';
 import {
-   startTrackingTask,
+   selectIsWorking,
    selectIsBreak,
+   startTrackingTask,
 } from '../features/timer/timerSlice';
 
 type Props = {
-   task: TaskItem,
+   task: Task,
 }
 
-export const Task = ({ task }: Props) => {
+export const TaskItem = ({ task }: Props) => {
 
+   const isWorking = useAppSelector(selectIsWorking);
    const isBreak = useAppSelector(selectIsBreak);
-   const currentTask = useAppSelector(selectCurrentTask) as TaskItem | {};
+   const currentTask = useAppSelector(selectCurrentTask);
    const dispatch = useAppDispatch();
 
-   const isRunning = currentTask && ('_id' in currentTask)
-      && currentTask._id === task._id && !isBreak;
+   const isTaskTracking = currentTask && ('_id' in currentTask)
+      && currentTask._id === task._id && isWorking && !isBreak;
 
    const completeTask = async () => {
       const updatedTask = { ...task, complete: !task.complete };
@@ -36,33 +38,25 @@ export const Task = ({ task }: Props) => {
    }
 
    const trackTask = () => {
-      if (!isBreak) {
          dispatch(startTrackingTask());
          dispatch(setCurrentTask(task));
-      }
    };
 
-   const remove = (id: string) => {
+   const onRemove = (id: string) => {
       dispatch(removeTask(id))
    };
 
    return (
       <div className="task">
          <div className="task-content">
-            <Checkbox
-               isChecked={task.complete}
-               onChange={completeTask}
-            />
-            <StartButton
-               isRunning={isRunning}
-               onChange={trackTask}
-            />
+            <Checkbox isChecked={task.complete} onChange={completeTask} />
+            <TrackTaskButton isTaskTracking={isTaskTracking} onChange={trackTask} />
             <div>{task.title}: <b>{task.totalTime}</b></div>
          </div>
          <div className="task-actions">
             <RiDeleteBinLine
                className="task-delete"
-               onClick={() => remove(task._id)}
+               onClick={() => onRemove(task._id)}
             />
             {/* <Link
                to={`/task/${task.id}`}

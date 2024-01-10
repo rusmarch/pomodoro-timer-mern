@@ -1,4 +1,4 @@
-export type TaskItem = {
+export type Task = {
    _id: string
    user: string,
    title: string, 

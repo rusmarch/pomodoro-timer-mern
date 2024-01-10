@@ -64,8 +64,8 @@ export const timerSlice = createSlice({
       },
       startTrackingTask: (state) => {
          state.isBreak = false;
-         state.isWorking = true;
          state.isPaused = false;
+         state.isWorking = true;
       },
    }
 })
