@@ -3,15 +3,15 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import CustomPopover from './custom-popover/custom-popover';
-import usePopover from '../hooks/use-popover';
+import { CustomPopover } from './custom-popover/custom-popover';
+import { usePopover } from '../hooks/use-popover';
 import { Timer } from './Timer';
 
 import { useAppSelector } from '../hooks/redux-hooks';
 import { selectIsBreak } from '../features/timer/timerSlice';
 import { useTimeDisplay } from '../hooks/use-time-display';
 
-export default function TimerPopover() {
+export const TimerPopover = () => {
 
    const isBreak = useAppSelector(selectIsBreak);
 

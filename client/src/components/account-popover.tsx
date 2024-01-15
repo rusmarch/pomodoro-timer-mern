@@ -11,8 +11,8 @@ import Typography from '@mui/material/Typography';
 
 // import { varHover } from 'src/components/animate';
 
-import InitialsAvatar from './initials-avatar';
-import usePopover from '../hooks/use-popover';
+import { InitialsAvatar }  from './initials-avatar';
+import { usePopover } from '../hooks/use-popover';
 import Popover from '@mui/material/Popover';
 
 // import { useSnackbar } from 'src/components/snackbar';
@@ -21,7 +21,7 @@ import Popover from '@mui/material/Popover';
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover() {
+export const AccountPopover = () => {
   // const router = useRouter();
 
   // const { user } = useMockedUser();

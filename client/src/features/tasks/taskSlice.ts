@@ -7,13 +7,13 @@ import { taskService } from './taskService';
 export type TaskState = {
    currentTask: Task | {},
    oneTask: Task | {},
-   allTasks: Task [] | [],
+   allTasks: Task[] | [],
    isLoading: boolean,
    isSuccess: boolean,
    isError: boolean,
    message: string,
    searchQuery: string,
-}
+};
 
 const initialState: TaskState = {
    allTasks: [],
@@ -24,7 +24,7 @@ const initialState: TaskState = {
    isError: false,
    message: '',
    searchQuery: '',
-}
+};
 
 export const createNewTask = createAsyncThunk(
    'tasks/create',
@@ -41,7 +41,7 @@ export const createNewTask = createAsyncThunk(
          return thunkAPI.rejectWithValue(message);
       }
    }
-)
+);
 
 export const getAllTask = createAsyncThunk(
    'tasks/getAll',
@@ -58,7 +58,7 @@ export const getAllTask = createAsyncThunk(
          return thunkAPI.rejectWithValue(message);
       }
    }
-)
+);
 
 export const removeTask = createAsyncThunk(
    'tasks/remove',
@@ -75,7 +75,7 @@ export const removeTask = createAsyncThunk(
          return thunkAPI.rejectWithValue(message);
       }
    }
-)
+);
 
 export const updateTask = createAsyncThunk(
    'task/update',
@@ -92,7 +92,7 @@ export const updateTask = createAsyncThunk(
          return thunkAPI.rejectWithValue(message);
       }
    }
-)
+);
 
 export const taskSlice = createSlice({
    name: 'tasks',
@@ -144,7 +144,7 @@ export const taskSlice = createSlice({
             )
          })
    }
-})
+});
 
 export const selectCurrentTask = (state: RootState) => state.tasks.currentTask;
 export const selectAllTasks = (state: RootState) => state.tasks.allTasks;

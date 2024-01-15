@@ -20,9 +20,9 @@ import {
 // import { varHover } from 'src/components/animate';
 
 import { useTimeDisplay } from '../hooks/use-time-display';
-import usePopover from '../hooks/use-popover';
+import { usePopover } from '../hooks/use-popover';
 import { TimerSettings } from '../types/timerTypes';
-import CustomPopover from './custom-popover/custom-popover';
+import { CustomPopover } from './custom-popover/custom-popover';
 
 // import { useSnackbar } from 'src/components/snackbar';
 // import { useRouter } from 'src/routes/hooks';
@@ -30,7 +30,7 @@ import CustomPopover from './custom-popover/custom-popover';
 
 // ----------------------------------------------------------------------
 
-export default function SettingsPopover() {
+export const SettingsPopover = () => {
 
   const settings = useAppSelector(selectSettings);
   const isWorking = useAppSelector(selectIsWorking);

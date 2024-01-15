@@ -1,5 +1,15 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+
+import Stack from '@mui/material/Stack';
+
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
+import { Spinner } from '../components/Spinner';
+import { BackButton } from '../components/BackButton';
+import { TaskItem } from '../components/task-item';
+import { TaskForm } from '../components/TaskForm';
+import { TimerPopover } from '../components/timer-popover';
+import { SearchInput } from '../components/search-input';
+
 import {
    selectAllTasks,
    selectSearchQuery,
@@ -9,19 +19,6 @@ import {
    reset,
    setSearchQuery,
 } from '../features/tasks/taskSlice';
-import { Spinner } from '../components/Spinner';
-import { BackButton } from '../components/BackButton';
-import { TaskItem } from '../components/task-item';
-import { TaskForm } from '../components/TaskForm';
-import TimerPopover from '../components/timer-popover';
-import { SearchInput } from '../components/search-input';
-import TaskSort from '../components/task-sort';
-
-export const POST_SORT_OPTIONS = [
-   { value: 'latest', label: 'Latest' },
-   { value: 'popular', label: 'Popular' },
-   { value: 'oldest', label: 'Oldest' },
-];
 
 export const Tasks = () => {
 
@@ -32,7 +29,6 @@ export const Tasks = () => {
    const dispatch = useAppDispatch();
 
    const [isCompletedTaskShowing, setIsCompletedTaskShowing] = useState<boolean>(false);
-   const [sortBy, setSortBy] = useState('latest');
 
    useEffect(() => {
       return () => {
@@ -54,10 +50,6 @@ export const Tasks = () => {
    const onSearch = (v: string) => {
       dispatch(setSearchQuery(v));
    };
-
-   const handleSortBy = useCallback((newValue: string) => {
-      setSortBy(newValue);
-   }, []);
 
    const showCompletedTask = () => {
       setIsCompletedTaskShowing(prev => !prev);
@@ -86,13 +78,12 @@ export const Tasks = () => {
    );
 
    if (isLoading) {
-      return <Spinner />
+      return <Spinner />;
    }
 
    return (
       <>
          <BackButton /* url='/' */ />
-         {/* <Timer /> */}
          <h1>Tasks List</h1>
          <TaskForm />
 
@@ -101,9 +92,7 @@ export const Tasks = () => {
             onSearch={onSearch}
             sx={{ mb: 2 }}
          />
-         <TaskSort sort={sortBy} onSort={handleSortBy} sortOptions={POST_SORT_OPTIONS} />
-         <h5 style={{ textAlign: 'right' }}>Show tasks</h5>
-         <br />
+
          {renderTaskList}
          <br />
          <button
@@ -116,4 +105,3 @@ export const Tasks = () => {
       </>
    );
 };
-

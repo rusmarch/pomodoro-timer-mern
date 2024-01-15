@@ -9,8 +9,8 @@ import {
    reset,
    selectUser
 } from '../features/auth/authSlice';
-import AccountPopover from './account-popover';
-import SettingsPopover from './settings-popover';
+import { AccountPopover } from './account-popover';
+import { SettingsPopover } from './settings-popover';
 
 export const Header = () => {
 

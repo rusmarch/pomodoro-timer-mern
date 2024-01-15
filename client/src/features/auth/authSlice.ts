@@ -10,7 +10,7 @@ export interface authState {
    isLoading: boolean;
    isError: boolean;
    message: string;
-}
+};
 
 const initialState: authState = {
    user: null,
@@ -18,7 +18,7 @@ const initialState: authState = {
    isLoading: false,
    isError: false,
    message: ''
-}
+};
 
 export const register = createAsyncThunk(
    'auth/register',
@@ -38,7 +38,7 @@ export const register = createAsyncThunk(
          return thunkAPI.rejectWithValue(message);
       }
    }
-)
+);
 
 export const login = createAsyncThunk(
    'auth/login',
@@ -58,7 +58,7 @@ export const login = createAsyncThunk(
          return thunkAPI.rejectWithValue(message);
       }
    }
-)
+);
 
 export const logout = createAsyncThunk(
    'auth/logout',
@@ -66,7 +66,7 @@ export const logout = createAsyncThunk(
       await authService.logout();
       localStorage.removeItem('token');
    }
-)
+);
 
 export const checkAuth = createAsyncThunk(
    'auth/checkAuth',
@@ -84,7 +84,7 @@ export const checkAuth = createAsyncThunk(
          return thunkAPI.rejectWithValue(message);
       }
    }
-)
+);
 
 export const authSlice = createSlice({
    name: 'auth2',
@@ -141,9 +141,6 @@ export const authSlice = createSlice({
             state.user = action.payload;
          })
          .addCase(checkAuth.rejected, (state, action) => {
-            // console.log('Error in checkAuth.rejected:', action.error); // Вывод ошибки
-            // console.log('Payload:', action.payload); // Вывод payload
-            // console.log('Error message:', action.error.message); // Вывод сообщения об ошибке
 
             state.isLoading = false;
             state.isError = true;
@@ -151,14 +148,14 @@ export const authSlice = createSlice({
             // state.user = null;
          })
    }
-})
+});
 
 export const { reset } = authSlice.actions;
 
-export const selectUser = (state: RootState) => state.auth2.user;
-export const selectIsAuth = (state: RootState) => state.auth2.isAuth;
-export const selectIsLoading = (state: RootState) => state.auth2.isLoading;
-export const selectIsError = (state: RootState) => state.auth2.isError;
-export const selectMessage = (state: RootState) => state.auth2.message;
+export const selectUser = (state: RootState) => state.auth.user;
+export const selectIsAuth = (state: RootState) => state.auth.isAuth;
+export const selectIsLoading = (state: RootState) => state.auth.isLoading;
+export const selectIsError = (state: RootState) => state.auth.isError;
+export const selectMessage = (state: RootState) => state.auth.message;
 
 export default authSlice.reducer;

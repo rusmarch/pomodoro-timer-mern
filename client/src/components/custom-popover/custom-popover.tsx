@@ -4,12 +4,12 @@ import { MenuPopoverProps } from '../../types/custom-popover';
 
 // ----------------------------------------------------------------------
 
-export default function CustomPopover({
+export const CustomPopover = ({
   open,
   children,
   sx,
   ...other
-}: MenuPopoverProps) {
+}: MenuPopoverProps) => {
 
   return (
     <Popover

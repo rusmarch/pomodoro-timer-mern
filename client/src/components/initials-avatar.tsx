@@ -7,7 +7,7 @@ type Props = AvatarProps & {
   title: string
 };
 
-export default function InitialsAvatar({ title, ...other }: Props) {
+export const InitialsAvatar = ({ title, ...other }: Props) => {
 
   return (
     <Avatar
