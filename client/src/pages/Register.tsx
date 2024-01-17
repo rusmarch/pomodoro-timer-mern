@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from "react"
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { FaUser } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -10,16 +10,16 @@ import {
    selectIsError,
    selectMessage,
    register,
-   reset
+   reset,
 } from '../features/auth/authSlice';
 import { Spinner } from "../components/Spinner";
 
-interface FormData {
-      name: string,
-      email: string,
-      password: string,
-      password2: string
-}
+type FormData = {
+   name: string,
+   email: string,
+   password: string,
+   password2: string
+};
 
 export const Register = () => {
 
@@ -28,7 +28,7 @@ export const Register = () => {
       email: '',
       password: '',
       password2: ''
-   })
+   });
 
    const user = useAppSelector(selectUser);
    const isAuth = useAppSelector(selectIsAuth);
@@ -49,8 +49,7 @@ export const Register = () => {
          navigate('/')
       }
       dispatch(reset());
-   }, [isError, isAuth, user, message, navigate, dispatch])
-
+   }, [isError, isAuth, user, message, navigate, dispatch]);
 
    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
       setFormData((prev) => ({
@@ -72,10 +71,10 @@ export const Register = () => {
 
          dispatch(register(userData));
       }
-   }
+   };
 
    if (isLoading) {
-      return <Spinner/>
+      return <Spinner />
    }
 
    return (
@@ -95,7 +94,7 @@ export const Register = () => {
                      required
                      id="name"
                      value={name}
-                  onChange={onChange}
+                     onChange={onChange}
                   />
                </div>
                <div className="form-group">
@@ -107,7 +106,7 @@ export const Register = () => {
                      required
                      id="email"
                      value={email}
-                  onChange={onChange}
+                     onChange={onChange}
                   />
                </div>
                <div className="form-group">
@@ -119,7 +118,7 @@ export const Register = () => {
                      required
                      id="password"
                      value={password}
-                  onChange={onChange}
+                     onChange={onChange}
                   />
                </div>
                <div className="form-group">
@@ -131,7 +130,7 @@ export const Register = () => {
                      required
                      id="password2"
                      value={password2}
-                  onChange={onChange}
+                     onChange={onChange}
                   />
                </div>
                <div className="form-group">
@@ -141,4 +140,4 @@ export const Register = () => {
          </section>
       </>
    )
-}
+};

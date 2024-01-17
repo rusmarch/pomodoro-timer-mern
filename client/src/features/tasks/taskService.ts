@@ -1,6 +1,6 @@
 import { $api } from "../../http";
 import { AxiosResponse } from 'axios';
-import { Task, TaskData, DeleteResponse } from '../../types/taskTypes'
+import { Task, TaskData, DeleteResponse } from '../../types/task'
 
 const createTask = async (
    taskData: TaskData

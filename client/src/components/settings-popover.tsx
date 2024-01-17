@@ -21,7 +21,7 @@ import {
 
 import { useTimeDisplay } from '../hooks/use-time-display';
 import { usePopover } from '../hooks/use-popover';
-import { TimerSettings } from '../types/timerTypes';
+import { TimerSettings } from '../types/timer';
 import { CustomPopover } from './custom-popover/custom-popover';
 
 // import { useSnackbar } from 'src/components/snackbar';

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
-import { TimerSettings, TimerState } from '../../types/timerTypes';
+import { TimerSettings, TimerState } from '../../types/timer';
 
 const storedSettings = localStorage.getItem('timerSettings');
 export const savedSettings = storedSettings ? JSON.parse(storedSettings) : null;

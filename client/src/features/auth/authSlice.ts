@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store/store";
-import { IUser } from '../../types/userTypes';
+import { User } from '../../types/user';
 import { userCredentials } from "../../types/userData";
 import { authService } from "./authService";
 
 export interface authState {
-   user: IUser | null;
+   user: User | null;
    isAuth: boolean;
    isLoading: boolean;
    isError: boolean;
@@ -17,7 +17,7 @@ const initialState: authState = {
    isAuth: false,
    isLoading: false,
    isError: false,
-   message: ''
+   message: '',
 };
 
 export const register = createAsyncThunk(
@@ -102,7 +102,7 @@ export const authSlice = createSlice({
          .addCase(register.pending, (state) => {
             state.isLoading = true;
          })
-         .addCase(register.fulfilled, (state, action: PayloadAction<IUser | null>) => {
+         .addCase(register.fulfilled, (state, action: PayloadAction<User | null>) => {
             state.isLoading = false;
             state.isAuth = true;
             state.user = action.payload;
@@ -116,7 +116,7 @@ export const authSlice = createSlice({
          .addCase(login.pending, (state) => {
             state.isLoading = true;
          })
-         .addCase(login.fulfilled, (state, action: PayloadAction<IUser | null>) => {
+         .addCase(login.fulfilled, (state, action: PayloadAction<User | null>) => {
             console.log(action.payload);
             state.isLoading = false;
             state.isAuth = true;
@@ -135,7 +135,7 @@ export const authSlice = createSlice({
          .addCase(checkAuth.pending, (state) => {
             state.isLoading = true;
          })
-         .addCase(checkAuth.fulfilled, (state, action: PayloadAction<IUser | null>) => {
+         .addCase(checkAuth.fulfilled, (state, action: PayloadAction<User | null>) => {
             state.isLoading = false;
             state.isAuth = true;
             state.user = action.payload;

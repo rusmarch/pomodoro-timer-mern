@@ -1,5 +1,5 @@
-export interface IUser {
+export type User = {
+  id: string;
   email: string;
   isActivated: boolean;
-  id: string;
 }

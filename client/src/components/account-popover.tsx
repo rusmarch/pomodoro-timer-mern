@@ -11,9 +11,11 @@ import Typography from '@mui/material/Typography';
 
 // import { varHover } from 'src/components/animate';
 
-import { InitialsAvatar }  from './initials-avatar';
+import { InitialsAvatar } from './initials-avatar';
 import { usePopover } from '../hooks/use-popover';
 import Popover from '@mui/material/Popover';
+import { useAppSelector } from '../hooks/redux-hooks';
+import { selectIsAuth, selectUser } from '../features/auth/authSlice';
 
 // import { useSnackbar } from 'src/components/snackbar';
 // import { useRouter } from 'src/routes/hooks';
@@ -22,15 +24,13 @@ import Popover from '@mui/material/Popover';
 // ----------------------------------------------------------------------
 
 export const AccountPopover = () => {
-  // const router = useRouter();
 
-  // const { user } = useMockedUser();
-
-  // const { logout } = useAuthContext();
-
-  // const { enqueueSnackbar } = useSnackbar();
+  const user = useAppSelector(selectUser);
+  const isAuth = useAppSelector(selectIsAuth);
 
   const popover = usePopover();
+
+  console.log(user);
 
   return (
     <>

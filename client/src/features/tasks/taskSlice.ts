@@ -1,7 +1,7 @@
-import { TaskData } from './../../types/taskTypes';
+import { TaskData } from '../../types/task';
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
-import { Task } from '../../types/taskTypes';
+import { Task } from '../../types/task';
 import { taskService } from './taskService';
 
 export type TaskState = {

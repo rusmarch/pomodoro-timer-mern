@@ -1,5 +1,5 @@
 // import { Link } from "react-router-dom"
-import { Task } from "../types/taskTypes";
+import { Task } from "../types/task";
 import { Checkbox } from './Checkbox';
 import { TrackTaskButton } from './track-task-button';
 import { RiDeleteBinLine } from 'react-icons/ri'
@@ -67,4 +67,4 @@ export const TaskItem = ({ task }: Props) => {
          </div>
       </div>
    )
-}
+};

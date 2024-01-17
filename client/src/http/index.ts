@@ -6,13 +6,13 @@ export const API_URL = `http://localhost:5000/api`;
 export const $api = axios.create({
    withCredentials: true,
    baseURL: API_URL
-})
+});
 
 // request interceptor
 $api.interceptors.request.use((config) => {
    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
    return config;
-})
+});
 
 // response interceptor
 $api.interceptors.response.use((config) => {
@@ -28,8 +28,8 @@ $api.interceptors.response.use((config) => {
          localStorage.setItem('token', response.data.accessToken);
          return $api.request(originalRequest);
       } catch (e) {
-         console.log('NOT AUTHORIZED')
+         console.log('NOT AUTHORIZED');
       }
    }
    throw error;
-})
+});
