@@ -1,5 +1,11 @@
 export type User = {
-  id: string;
-  email: string;
-  isActivated: boolean;
-}
+  id: string,
+  name: string,
+  email: string,
+};
+
+export type UserRegisterData = Omit<User, 'id'> & {
+   password: string,
+};
+
+export type UserLoginData = Omit<UserRegisterData, 'id' | 'name'>;

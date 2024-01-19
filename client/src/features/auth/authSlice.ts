@@ -1,15 +1,18 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store/store";
-import { User } from '../../types/user';
-import { userCredentials } from "../../types/userData";
+import {
+   User,
+   UserRegisterData,
+   UserLoginData,
+} from '../../types/user';
 import { authService } from "./authService";
 
-export interface authState {
-   user: User | null;
-   isAuth: boolean;
-   isLoading: boolean;
-   isError: boolean;
-   message: string;
+export type authState = {
+   user: User | null,
+   isAuth: boolean,
+   isLoading: boolean,
+   isError: boolean,
+   message: string,
 };
 
 const initialState: authState = {
@@ -22,10 +25,10 @@ const initialState: authState = {
 
 export const register = createAsyncThunk(
    'auth/register',
-   async (userData: userCredentials, thunkAPI) => {
+   async (userData: UserRegisterData, thunkAPI) => {
       try {
-         const { email, password } = userData;
-         const response = await authService.registration(email, password);
+         const { email, password, name } = userData;
+         const response = await authService.registration(email, password, name);
          console.log(response);
          localStorage.setItem('token', response.data.accessToken);
          return response.data.user;
@@ -42,7 +45,7 @@ export const register = createAsyncThunk(
 
 export const login = createAsyncThunk(
    'auth/login',
-   async (userData: userCredentials, thunkAPI) => {
+   async (userData: UserLoginData, thunkAPI) => {
       try {
          const { email, password } = userData;
          const response = await authService.login(email, password);

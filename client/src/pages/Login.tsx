@@ -14,17 +14,17 @@ import {
 import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
 import { Spinner } from '../components/Spinner';
 
-interface FormData {
+type FormData = {
    email: string,
    password: string
-}
+};
 
 export const Login = () => {
 
    const [formData, setFormData] = useState<FormData>({
       email: '',
       password: '',
-   })
+   });
 
    const user = useAppSelector(selectUser);
    const isAuth = useAppSelector(selectIsAuth);

@@ -6,9 +6,9 @@ import axios from "axios";
 
 const registration =
    async (
-      email: string, password: string
+      email: string, password: string, name: string
    ): Promise<AxiosResponse<AuthResponse>> => {
-      return $api.post<AuthResponse>('/registration', { email, password });
+      return $api.post<AuthResponse>('/registration', { email, password, name });
    };
 
 const login =

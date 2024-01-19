@@ -15,19 +15,19 @@ import {
 import { Spinner } from "../components/Spinner";
 
 type FormData = {
-   name: string,
    email: string,
+   name: string,
    password: string,
-   password2: string
+   password2: string,
 };
 
 export const Register = () => {
 
    const [formData, setFormData] = useState<FormData>({
-      name: '',
       email: '',
+      name: '',
       password: '',
-      password2: ''
+      password2: '',
    });
 
    const user = useAppSelector(selectUser);
@@ -56,7 +56,7 @@ export const Register = () => {
          ...prev,
          [e.target.name]: e.target.value,
       }));
-   }
+   };
 
    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -64,10 +64,10 @@ export const Register = () => {
          toast.error('Passwords do not match');
       } else {
          const userData = {
-            name,
             email,
-            password
-         }
+            password,
+            name,
+         };
 
          dispatch(register(userData));
       }

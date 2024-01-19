@@ -15,7 +15,7 @@ import { InitialsAvatar } from './initials-avatar';
 import { usePopover } from '../hooks/use-popover';
 import Popover from '@mui/material/Popover';
 import { useAppSelector } from '../hooks/redux-hooks';
-import { selectIsAuth, selectUser } from '../features/auth/authSlice';
+import { selectUser } from '../features/auth/authSlice';
 
 // import { useSnackbar } from 'src/components/snackbar';
 // import { useRouter } from 'src/routes/hooks';
@@ -26,11 +26,7 @@ import { selectIsAuth, selectUser } from '../features/auth/authSlice';
 export const AccountPopover = () => {
 
   const user = useAppSelector(selectUser);
-  const isAuth = useAppSelector(selectIsAuth);
-
   const popover = usePopover();
-
-  console.log(user);
 
   return (
     <>
@@ -41,9 +37,7 @@ export const AccountPopover = () => {
           height: 40,
         }}
       >
-
-        <InitialsAvatar title="Ruslan Marchenko" />
-
+        {user && <InitialsAvatar title={user.name} /> }
       </IconButton>
 
       <Popover
