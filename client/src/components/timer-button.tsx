@@ -3,11 +3,11 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 type Props = {
-   isWorking: boolean;
-   isPaused: boolean;
-   isBreak: boolean;
-   onStartPause: VoidFunction;
-   onStop: VoidFunction;
+   isWorking: boolean,
+   isPaused: boolean,
+   isBreak: boolean,
+   onStartPause: VoidFunction,
+   onStop: VoidFunction,
 };
 
 export const TimerButton = ({

@@ -2,10 +2,10 @@ import { FC } from 'react';
 import unfinishedImg from '../assets/task-unfinished.png'
 import finishedImg from '../assets/task_done.png'
 
-interface CheckboxProps {
-   isChecked: boolean;
-   onChange: (isChecked: boolean) => void;
-}
+type CheckboxProps = {
+   isChecked: boolean,
+   onChange: (isChecked: boolean) => void,
+};
 
 export const Checkbox: FC<CheckboxProps> = ({ isChecked, onChange }) => {
 

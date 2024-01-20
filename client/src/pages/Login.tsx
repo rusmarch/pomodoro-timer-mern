@@ -16,7 +16,7 @@ import { Spinner } from '../components/Spinner';
 
 type FormData = {
    email: string,
-   password: string
+   password: string,
 };
 
 export const Login = () => {

@@ -4,8 +4,8 @@ export type Task = {
    title: string, 
    complete: boolean,
    totalTime: number,
-   __v?: number
-   tags: [] | string[];
+   __v?: number,
+   tags: [] | string[],
 }
 
 export type TaskData = {
@@ -13,5 +13,5 @@ export type TaskData = {
 }
 
 export type DeleteResponse = {
-   success: boolean;
+   success: boolean
 }

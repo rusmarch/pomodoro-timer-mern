@@ -2,10 +2,10 @@ import { ChangeEvent } from 'react';
 import startImg from '../assets/task-start.png';
 import runningImg from '../assets/task-running.png';
 
-interface StartButtonProps {
-   isTaskTracking: boolean;
-   onChange: (value: boolean) => void;
-}
+type StartButtonProps = {
+   isTaskTracking: boolean,
+   onChange: (value: boolean) => void,
+};
 
 export const TrackTaskButton = ({ onChange, isTaskTracking }: StartButtonProps) => {
 

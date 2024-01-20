@@ -3,10 +3,10 @@ import { useCallback, useState } from 'react';
 // ----------------------------------------------------------------------
 
 type ReturnType = {
-  onClose: VoidFunction;
-  open: HTMLElement | null;
-  onOpen: (event: React.MouseEvent<HTMLElement>) => void;
-  setOpen: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+  onClose: VoidFunction,
+  open: HTMLElement | null,
+  onOpen: (event: React.MouseEvent<HTMLElement>) => void,
+  setOpen: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
 };
 
 export const usePopover = (): ReturnType => {

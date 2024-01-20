@@ -5,7 +5,7 @@ export type User = {
 };
 
 export type UserRegisterData = Omit<User, 'id'> & {
-   password: string,
+   password: string
 };
 
 export type UserLoginData = Omit<UserRegisterData, 'id' | 'name'>;

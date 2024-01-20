@@ -7,8 +7,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useDebouncedState } from '../hooks/use-debounce-state';
 
 type Props = {
-   query: string;
-   onSearch: (inputValue: string) => void;
+   query: string,
+   onSearch: (inputValue: string) => void,
 };
 
 export const SearchInput = ({
