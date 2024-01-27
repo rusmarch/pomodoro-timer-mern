@@ -6,12 +6,12 @@ export type Task = {
    totalTime: number,
    __v?: number,
    tags: [] | string[],
-}
+};
 
 export type TaskData = {
    title: string
-}
+};
 
 export type DeleteResponse = {
    success: boolean
-}
+};

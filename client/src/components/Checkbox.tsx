@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import unfinishedImg from '../assets/task-unfinished.png'
 import finishedImg from '../assets/task_done.png'
 
@@ -7,7 +6,7 @@ type CheckboxProps = {
    onChange: (isChecked: boolean) => void,
 };
 
-export const Checkbox: FC<CheckboxProps> = ({ isChecked, onChange }) => {
+export const Checkbox = ({ isChecked, onChange }: CheckboxProps) => {
 
    const handleChange = () => {
       const updatedValue = !isChecked;
@@ -23,4 +22,4 @@ export const Checkbox: FC<CheckboxProps> = ({ isChecked, onChange }) => {
          style={{ backgroundImage: `url(${isChecked ? finishedImg : unfinishedImg})` }}
       />
    )
-}
+};

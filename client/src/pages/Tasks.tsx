@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import Stack from '@mui/material/Stack';
+import { Typography } from '@mui/material';
 
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 import { Spinner } from '../components/Spinner';
@@ -29,6 +29,7 @@ export const Tasks = () => {
    const dispatch = useAppDispatch();
 
    const [isCompletedTaskShowing, setIsCompletedTaskShowing] = useState<boolean>(false);
+   const hasCompletedTask = tasks.some((task) => task.complete);
 
    useEffect(() => {
       return () => {
@@ -58,10 +59,7 @@ export const Tasks = () => {
    const renderTaskList = (
       <div className="tickets">
          {filteredTasks.map(task => (
-            !task.complete && <TaskItem
-               key={task._id}
-               task={task}
-            />
+            !task.complete && <TaskItem key={task._id} task={task} />
          ))}
       </div>
    );
@@ -69,10 +67,7 @@ export const Tasks = () => {
    const renderCompletedTaskList = (
       <div className="tickets">
          {tasks.map(task => (
-            task.complete && <TaskItem
-               key={task._id}
-               task={task}
-            />
+            task.complete && <TaskItem key={task._id} task={task} />
          ))}
       </div>
    );
@@ -80,6 +75,8 @@ export const Tasks = () => {
    if (isLoading) {
       return <Spinner />;
    }
+
+   console.log(hasCompletedTask);
 
    return (
       <>
@@ -92,15 +89,29 @@ export const Tasks = () => {
             onSearch={onSearch}
             sx={{ mb: 2 }}
          />
-
-         {renderTaskList}
          <br />
-         <button
-            onClick={() => showCompletedTask()}
-         >
-            {`${isCompletedTaskShowing ? 'Hide' : 'Show'} completed tasks`}
-         </button>
-         {isCompletedTaskShowing && renderCompletedTaskList}
+
+         {tasks.length
+            ? (
+               <>
+                  {renderTaskList}
+                  <br />
+                  {hasCompletedTask &&
+                     <button
+                        onClick={() => showCompletedTask()}
+                     >
+                        {`${isCompletedTaskShowing ? 'Hide' : 'Show'} completed tasks`}
+                     </button>
+                  }
+
+                  {isCompletedTaskShowing && renderCompletedTaskList}
+               </>
+            ) : (
+               <Typography variant='h4' sx={{ my: 2, color: 'text.disabled' }}>
+                  You have no tasks yet
+               </Typography>)
+         }
+
          <TimerPopover />
       </>
    );

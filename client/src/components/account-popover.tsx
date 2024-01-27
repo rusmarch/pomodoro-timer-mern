@@ -37,7 +37,7 @@ export const AccountPopover = () => {
           height: 40,
         }}
       >
-        {user && <InitialsAvatar title={user.name} /> }
+        {user && <InitialsAvatar title={user.name} />}
       </IconButton>
 
       <Popover
@@ -66,7 +66,7 @@ export const AccountPopover = () => {
             {user?.username}
           </Typography>
         </Box> */}
-        <Typography>Settins</Typography>
+        <Typography>Settings</Typography>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 

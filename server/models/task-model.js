@@ -18,9 +18,9 @@ const TaskSchema = new Schema({
       type: Number,
       default: 0
    },
-tags: {
-      type: [String],  
-      default: [],     
+   tags: {
+      type: [String],
+      default: [],
    },
 })
 
