@@ -76,8 +76,6 @@ export const Tasks = () => {
       return <Spinner />;
    }
 
-   console.log(hasCompletedTask);
-
    return (
       <>
          <BackButton /* url='/' */ />

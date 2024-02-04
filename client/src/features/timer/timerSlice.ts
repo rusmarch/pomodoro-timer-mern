@@ -11,8 +11,8 @@ export const defaultSettings: TimerSettings = {
 };
 
 const initialState: TimerState = {
-   secondsLeft: defaultSettings.pomodoroTime,
-   settings: defaultSettings,
+   secondsLeft: savedSettings.pomodoroTime ?? defaultSettings.pomodoroTime,
+   settings: savedSettings ?? defaultSettings,
    isWorking: false,
    isPaused: false,
    isBreak: false,
@@ -60,6 +60,7 @@ export const timerSlice = createSlice({
       setTimerSettings: (state, action: PayloadAction<TimerSettings>) => {
          if (!state.isWorking && !state.isPaused) {
             state.settings = action.payload;
+            state.secondsLeft = action.payload.pomodoroTime;
          }
       },
       startTrackingTask: (state) => {
